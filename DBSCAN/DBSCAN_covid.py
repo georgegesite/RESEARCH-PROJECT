@@ -3,7 +3,7 @@ import pygal
 import numpy as np
 from sklearn.cluster import DBSCAN
 
-dataFrame = pd.read_json(r"C:\Users\GEORGIE\Dropbox\pythong projects\JSON\MOCK2.json")
+dataFrame = pd.read_json(r"C:\Users\GEORGIE\Dropbox\Research Thesis\RESEARCH-PROJECT\DBSCAN\JSON\MOCK2.json")
 
 def contactTracing(dataFrame, inputName):
     #Check if name is valid
