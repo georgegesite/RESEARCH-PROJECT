@@ -1,5 +1,7 @@
 #WORKING GUI 1440 x 900
 #WORKING SQL C:\Users\GEORGIE\Dropbox\4th year 2nd sem\CPE 421 CpE Practice and Design 2\Workingupdate0420.sql
+#WORKING on adding contact number
+#working on more info on contact tracing
 from datetime import datetime
 import time
 import tkinter.messagebox
@@ -122,7 +124,7 @@ def start_program():
     monitoring_button.place(x=750, y=700)
 
     scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),
-                                    command=scan_id)
+                                    command=register)
     scan_button.place(x=2, y=700)
 
 def entrance_monitoring():
@@ -226,7 +228,7 @@ def show_entrance_monitoring():
 
     my_tree.place(x=170, y=250, width=1100, height=500)
 
-    back_button3 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_get_entrance_monitoring)
+    back_button3 = Button(root, text="Back",  padx=10, pady=10, font=('Times', 30), command=clear_get_entrance_monitoring)
     back_button3.place(x=1305, y=700)
 
 def scan_id():
@@ -464,15 +466,16 @@ def trace():
 
     sql_connection()
 
-    cursor.execute("SELECT id,name,epoch,room,DATE(transdate) FROM logs")
+    cursor.execute("SELECT id, NAME, epoch, room, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS transdate FROM LOGS")
+    # cursor.execute("SELECT id,name,epoch,room,DATE(transdate) FROM logs")
 
     result = cursor.fetchall()
 
-    all_id = []
-    all_name = []
-    all_date_int = []
-    all_time_int = []
-    all_date = []
+    all_id = [] #id
+    all_name = []#name
+    all_date_int = [] #epoch
+    all_time_int = [] #room
+    all_date = [] #date
 
     for id, name, date_int, time_int, transdate in result:
         all_id.append(id)
@@ -492,7 +495,7 @@ def trace():
     def get_infected_names(unique_id):
         unique_id = int(unique_id)
         name_room = df[df['id'] == int(unique_id)]['room'].item()
-        epsilon = 1 
+        epsilon = 0.4 #to be changed
         model = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(df[['room', 'datetime']])
         df['cluster'] = model.labels_.tolist()
 
@@ -517,7 +520,7 @@ def trace():
 
         final_infected_names = []
         for i in range(len(infected_id)):
-            if (df[df['id'] == int(infected_id[i])]['trans'].item()) == tracedate.strftime("%Y-%m-%d"):
+            # if (df[df['id'] == int(infected_id[i])]['trans'].item()) == tracedate.strftime("%Y-%m-%d %H:%i"): #"dili na sya mo check if same day"
                 if (df[df['id'] == int(infected_id[i])]['name'].item()) != tracename:
                     if (df[df['id'] == int(infected_id[i])]['room'].item()) == name_room:
                         if not df[df['id'] == infected_id[i]]['name'].item() in final_infected_names:
@@ -548,8 +551,7 @@ def trace():
 
     if len(i_name) > 0:
         for i in i_name:
-            my_button = Button(myframe, text=i, width=97, font=('Times', 15),
-                               command=lambda button_text=i: click_name(button_text)).pack()
+            my_button = Button(myframe, text=i, width=97, font=('Times', 15), command=lambda button_text=i: click_name(button_text)).pack()
     else:
         Label(myframe, text="No One", font=('Times', 15)).pack()
     
@@ -574,17 +576,18 @@ def click_name(text):
     for result in results:
         result = list(result)
         from_db.append(result)
-        clicked_image = result[5]
+        clicked_image = result[6] #column 6 for image
 
         convert_data(clicked_image, "user.jpg")
 
-    columns = ["id", "rfid", "name", "course", "address","image"]
+    columns = ["id", "rfid", "name", "course", "address","phone","image"]
     df = pd.DataFrame(from_db, columns=columns)
 
     clicked_rfid_text = df[df['name'] == text]['rfid'].item()
     clicked_name_text = text
     clicked_course_text = df[df['name'] == text]['course'].item()
     clicked_address_text = df[df['name'] == text]['address'].item()
+    clicked_phone_text =df[df['name'] == text]['phone'].item()
     # print(clicked_address_text + " " + clicked_name_text + " " + clicked_course_text + " " + clicked_rfid_text)
 
     clicked_rfid = Image.open("user.jpg")
@@ -609,21 +612,23 @@ def click_name(text):
     clicked_address_label.place(x=450, y=220)
     clicked_address = Label(new, text=clicked_address_text, font=('Times', 18))
     clicked_address.place(x=550, y=220)
-    # clicked_phone_label = Label(new, text="phone: ", font=('Times', 18))
-    # clicked_phone_label.place(x=450, y=260)
-    # clicked_phone = Label(new, text=clicked_phone_text, font=('Times', 18))
-    # clicked_phone.place(x=550, y=260)
+    clicked_phone_label = Label(new, text="phone: ", font=('Times', 18))
+    clicked_phone_label.place(x=450, y=260)
+    clicked_phone = Label(new, text=clicked_phone_text, font=('Times', 18))
+    clicked_phone.place(x=550, y=260)
 
 def clear_register():
     b2.destroy()
     enter_course_entry.destroy()
     enter_name_entry.destroy()
     enter_address_entry.destroy()
+    enter_phone_entry.destroy()
     traced_label.destroy()
     upload_button.destroy()
     enter_name_label.destroy()
     enter_course_label.destroy()
     enter_address_label.destroy()
+    enter_phone_label.destroy()
     register_button.destroy()
     start_program()
 
@@ -631,12 +636,14 @@ def register():
     global enter_course_entry
     global enter_name_entry
     global enter_address_entry
+    global enter_phone_entry
     global filename
     global traced_label
     global upload_button
     global enter_name_label
     global enter_course_label
     global enter_address_label
+    global enter_phone_label
     global register_button
     global rfid_code
 
@@ -686,7 +693,7 @@ def convertToBinaryData(filename):
 def register_details():
     global rfid_code
 
-    if enter_name_entry.get() == "" or enter_course_entry.get() == "" or enter_address_entry.get() == "":
+    if enter_name_entry.get() == "" or enter_course_entry.get() == "" or enter_address_entry.get() == "" or enter_phone_entry.get() == "":
         messagebox.showwarning('Error', 'Error: Please Fill up Data!')
     else:
         if filename == "":
@@ -695,8 +702,8 @@ def register_details():
             try:
                 file = convertToBinaryData(filename)
                 sql_connection()
-                sql = "INSERT INTO users (rfid, name, course, address, image) VALUES (%s, %s, %s, %s, %s)"
-                val = (rfid_code, enter_name_entry.get(), enter_course_entry.get(), enter_address_entry.get(), file)
+                sql = "INSERT INTO users (rfid, name, course, address, phone, image) VALUES (%s, %s, %s, %s, %s, %s)"
+                val = (rfid_code, enter_name_entry.get(), enter_course_entry.get(), enter_address_entry.get(), enter_phone_entry.get(), file)
                 result = cursor.execute(sql, val)
                 connection.commit()
                 tkinter.messagebox.showinfo(title="Success!", message="Image and data successfully inserted!")
