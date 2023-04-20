@@ -26,7 +26,7 @@ global is_home
 global rfid_code
 global temp
 global arport
-arport = "COM5"
+arport = "COM8"
 temp = ""
 rfid_code = ""
 is_home = False
@@ -58,7 +58,7 @@ def sql_connection():
         connection = mysql.connector.connect(host='localhost',
                                              database='contact_tracer',
                                              user='root',
-                                             password='password',
+                                             password='123456',
                                              port='3306')
         if connection.is_connected():
             db_Info = connection.get_server_info()
@@ -92,6 +92,7 @@ def start_program():
     global start_label
     global rfid_image_label
     global contact_tracing_Button
+    global monitoring_button
     global from_trace
     global is_header
     global temp
@@ -113,9 +114,116 @@ def start_program():
                                     command=clear_start_contact_tracing)
     contact_tracing_Button.place(x=750, y=465)
 
+    monitoring_button = Button(root, text="Entrance Monitoring", padx=10, pady=10, font=('Times', 24),
+                                    command=clear_start_entrance_monitoring)
+    monitoring_button.place(x=440, y=465)
+
     scan_button = Button(root, text="Scan", padx=10, pady=10, font=('Times', 24),
                                     command=scan_id)
     scan_button.place(x=0, y=465)
+
+def entrance_monitoring():
+    global name_label
+    global name_entry
+    global trace_button
+    global back_button2
+    global traced_frame1
+    global date_label
+    global date_entry
+
+    date_label = Label(root, text="Enter Date: ", font=('Times', 20))
+    date_label.place(x=490, y=130)
+
+    date_entry = ttk.Entry(root, width=16, font=('Times', 20))
+    date_entry.place(x=630, y=130)
+
+    trace_button = Button(root, text="Trace", font=('Times', 14), command=get_entrance_monitoring)
+    trace_button.place(x=870, y=130)
+
+    traced_frame1 = LabelFrame(root, text="Entrance Monitoring", font=('Times', 14))
+    traced_frame_canvas = Canvas(traced_frame1)
+    traced_frame_canvas.pack(side=LEFT, fill="both", expand="yes")
+
+    myscrollbar = ttk.Scrollbar(traced_frame1, orient="vertical", command=traced_frame_canvas.yview)
+    myscrollbar.pack(side=RIGHT, fill="y")
+
+    traced_frame_canvas.configure(yscrollcommand=myscrollbar.set)
+
+    traced_frame_canvas.bind('<Configure>',
+                             lambda e: traced_frame_canvas.configure(scrollregion=traced_frame_canvas.bbox('all')))
+
+    myframe = Frame(traced_frame_canvas)
+    traced_frame_canvas.create_window((0, 0), window=myframe, anchor="nw")
+
+    traced_frame1.place(x=100, y=180, width=800, height=300)
+    back_button2 = Button(root, text="Back", padx=2, pady=2, font=('Times', 24), command=clear_entrance_monitoring)
+    back_button2.place(x=895, y=480)
+
+    Label(myframe, text="No One").pack()
+
+def get_entrance_monitoring():
+    global unique_id
+    global tracename
+    global tracedate
+    global result_monitoring
+    clean = False
+    if date_entry.get() == "":
+        messagebox.showwarning('Error', 'Please Fill in Date!')
+    else:
+        sql_connection()
+
+        cursor.execute("SELECT NAME,transdate,room,temp from logs where DATE(`transdate`)=DATE('"+date_entry.get()+"')")
+
+        result_monitoring = cursor.fetchall()
+
+        if len(result_monitoring) >= 1:
+            show_entrance_monitoring()
+
+        if len(result_monitoring) == 0:
+            messagebox.showwarning('Error', 'No Data Found!!')
+
+def show_entrance_monitoring():
+    global my_tree
+    global back_button3
+    global date_label
+    Date_entry_label = date_entry.get()
+    date_entry.destroy()
+    trace_button.destroy()
+    back_button2.destroy()
+    traced_frame1.destroy()
+    prim_key = 0
+
+    date_label = Label(root, text="Enter Date: " + Date_entry_label, font=('Times', 20))
+    date_label.place(x=490, y=130)
+
+    my_tree = ttk.Treeview(root)
+
+    my_tree['columns'] = ("Name", "Date", "Room", "Temp")
+
+    # format columns
+    my_tree.column("#0", width=0, minwidth=50)
+    my_tree.column("Name", anchor=W, width=100, minwidth=100)
+    my_tree.column("Date", anchor=W, width=300, minwidth=100)
+    my_tree.column("Room", anchor=W, width=150, minwidth=150)
+    my_tree.column("Temp", anchor=W, width=100, minwidth=150)
+
+    # create headings
+    my_tree.heading("#0", text="")
+    my_tree.heading("Name", text="Name", anchor=W)
+    my_tree.heading("Date", text="Date and Time", anchor=W)
+    my_tree.heading("Room", text="Room", anchor=W)
+    my_tree.heading("Temp", text="Temp", anchor=W)
+
+    for row in result_monitoring:
+        my_tree.insert(parent='', index='end', iid=prim_key, text="", values=(row[0], str(row[1]), row[2], str(row[3])))
+        prim_key += 1
+        # my_tree.insert(parent='', index='end', iid=prim_key, text="", values=(row[0], str(row[1]), row[2], str(row[3])))
+        # prim_key += 1
+
+    my_tree.place(x=100, y=180, width=800, height=300)
+
+    back_button3 = Button(root, text="Back", padx=2, pady=2, font=('Times', 24), command=clear_get_entrance_monitoring)
+    back_button3.place(x=895, y=480)
 
 def scan_id():
     global rfid_code
@@ -173,14 +281,40 @@ def clear_start_contact_tracing():
     start_label.destroy()
     scan_button.destroy()
     rfid_image_label.destroy()
+    monitoring_button.destroy()
     contact_tracing_Button.destroy()
     contact_tracing()
+
+def clear_get_entrance_monitoring():
+    date_label.destroy()
+    date_entry.destroy()
+    my_tree.destroy()
+    back_button3.destroy()
+    start_program()
+
+def clear_entrance_monitoring():
+    is_home = False
+    date_label.destroy()
+    date_entry.destroy()
+    trace_button.destroy()
+    back_button2.destroy()
+    traced_frame1.destroy()
+    start_program()
+
+def clear_start_entrance_monitoring():
+    start_label.destroy()
+    scan_button.destroy()
+    rfid_image_label.destroy()
+    monitoring_button.destroy()
+    contact_tracing_Button.destroy()
+    entrance_monitoring()
 
 def clear_start_register():
     global is_home
     is_home = False
     start_label.destroy()
     rfid_image_label.destroy()
+    monitoring_button.destroy()
     contact_tracing_Button.destroy()
     scan_button.destroy()
     register()
@@ -191,6 +325,7 @@ def clear_start_show_details():
     is_home = False
     start_label.destroy()
     rfid_image_label.destroy()
+    monitoring_button.destroy()
     contact_tracing_Button.destroy()
     scan_button.destroy()
     show_details()
@@ -353,7 +488,7 @@ def trace():
     def get_infected_names(unique_id):
         unique_id = int(unique_id)
         name_room = df[df['id'] == int(unique_id)]['room'].item()
-        epsilon = 1  # parameter nga e change para sa model
+        epsilon = 1 
         model = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(df[['room', 'datetime']])
         df['cluster'] = model.labels_.tolist()
 
@@ -413,7 +548,7 @@ def trace():
                                command=lambda button_text=i: click_name(button_text)).pack()
     else:
         Label(myframe, text="No One", font=('Times', 12)).pack()
-
+    
 def click_name(text):
     new = Toplevel(root)
     new.title("Description")
@@ -507,7 +642,7 @@ def register():
     enter_name_label.place(x=430, y=220)
     enter_name_entry = ttk.Entry(root, width=45, font=('Times', 13))
     enter_name_entry.place(x=530, y=220)
-    enter_course_label = Label(root, text="Course: ", font=('Times', 15))
+    enter_course_label = Label(root, text="Course: ", font=('Times', 15))#edit course year and section
     enter_course_label.place(x=430, y=260)
     enter_course_entry = ttk.Entry(root, width=45, font=('Times', 13))
     enter_course_entry.place(x=530, y=260)
@@ -713,6 +848,13 @@ def show_details():
     scan_temp_button = Button(root, text="Scan", padx=7, pady=7, font=('Times', 24),
                                     command=scan_temp)
     scan_temp_button.place(x=0, y=465)
+
+    #for image showing
+    # upload_image = Image.open(filename)
+    # resize_img = upload_image.resize((250, 250))
+    # img = ImageTk.PhotoImage(resize_img)
+    # b2 = Label(root, image=img)  # using Button
+    # b2.place(x=100, y=230)
 
 def scan_temp():
     global temp

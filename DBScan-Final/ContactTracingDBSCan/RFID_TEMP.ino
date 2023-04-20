@@ -6,10 +6,6 @@
 #include <Adafruit_MLX90614.h>
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 
-const int GreenLED = 2;
-const int RedLED = 3;
-const int buzzer = 4;
-
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
  
 void setup() 
@@ -17,10 +13,6 @@ void setup()
   Serial.begin(9600);   // Initiate a serial communication
   while (!Serial);
   pinMode(13, OUTPUT);
-  
-  pinMode(GreenLED, OUTPUT);
-  pinMode(RedLED, OUTPUT);
-  pinMode(buzzer, OUTPUT);
 
   if (!mlx.begin()) {
     Serial.println("Error connecting to MLX sensor. Check wiring.");
@@ -76,27 +68,5 @@ void rfid()
 }
 void temp(){
   delay(1000);
-  float temp = mlx.readObjectTempC();
-  Serial.print(temp); 
-  Serial.println(" C");
-  if (temp <= 37.5)
-  {
-   digitalWrite(GreenLED, HIGH); 
-   delay(2000);
-   digitalWrite(GreenLED, LOW); 
-  }
-  else
-  {
-   digitalWrite(RedLED, HIGH);
-   delay(500);
-   for (int i = 0; i <6; i ++)
-   {
-      tone(buzzer, 1000); // Send 1KHz sound signal...
-      delay(500);        // ...for 1 sec
-      noTone(buzzer);     // Stop sound...
-      delay(500);        // ...for 1sec
-   }
-   delay(500);
-   digitalWrite(RedLED, LOW); 
-  }
+   Serial.print(mlx.readObjectTempC()); Serial.println(" C");
 }
