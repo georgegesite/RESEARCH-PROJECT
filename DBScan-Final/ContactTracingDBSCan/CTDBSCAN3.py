@@ -2,6 +2,7 @@
 #WORKING SQL C:\Users\GEORGIE\Dropbox\4th year 2nd sem\CPE 421 CpE Practice and Design 2\Workingupdate0420.sql
 #WORKING on adding contact number
 #working on more info on contact tracing
+#adding course to entrance monitoring and contact tracing
 from datetime import datetime
 import time
 import tkinter.messagebox
@@ -177,7 +178,7 @@ def get_entrance_monitoring():
     else:
         sql_connection()
 
-        cursor.execute("SELECT NAME,transdate,room,temp from logs where DATE(`transdate`)=DATE('"+date_entry.get()+"')")
+        cursor.execute("SELECT NAME,course, transdate,room,temp from logs where DATE(`transdate`)=DATE('"+date_entry.get()+"')")#added course course ,
 
         result_monitoring = cursor.fetchall()
 
@@ -204,24 +205,27 @@ def show_entrance_monitoring():
 
     my_tree = ttk.Treeview(root)
 
-    my_tree['columns'] = ("Name", "Date", "Room", "Temp")
+    my_tree['columns'] = ("Name","Course", "Date", "Room", "Temp")
 
     # format columns
     my_tree.column("#0", width=0, minwidth=50)
     my_tree.column("Name", anchor=W, width=100, minwidth=100)
+    my_tree.column("Course", anchor=W, width=100, minwidth=150)
     my_tree.column("Date", anchor=W, width=300, minwidth=100)
     my_tree.column("Room", anchor=W, width=150, minwidth=150)
     my_tree.column("Temp", anchor=W, width=100, minwidth=150)
+    
 
     # create headings
     my_tree.heading("#0", text="")
     my_tree.heading("Name", text="Name", anchor=W)
+    my_tree.heading("Course", text="Course", anchor=W)
     my_tree.heading("Date", text="Date and Time", anchor=W)
     my_tree.heading("Room", text="Room", anchor=W)
     my_tree.heading("Temp", text="Temp", anchor=W)
 
     for row in result_monitoring:
-        my_tree.insert(parent='', index='end', iid=prim_key, text="", values=(row[0], str(row[1]), row[2], str(row[3])))
+        my_tree.insert(parent='', index='end', iid=prim_key, text="", values=(row[0], str(row[1]), row[2], str(row[3]),str(row[4])))
         prim_key += 1
         # my_tree.insert(parent='', index='end', iid=prim_key, text="", values=(row[0], str(row[1]), row[2], str(row[3])))
         # prim_key += 1
@@ -466,7 +470,7 @@ def trace():
 
     sql_connection()
 
-    cursor.execute("SELECT id, NAME, epoch, room, temp, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS transdate, DATE(transDate) FROM LOGS")
+    cursor.execute("SELECT id, NAME, epoch, room, temp,course, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS transdate, DATE(transDate) FROM LOGS")
     # cursor.execute("SELECT id,name,epoch,room,DATE(transdate) FROM logs")
 
     result = cursor.fetchall()
@@ -475,20 +479,22 @@ def trace():
     all_name = []#name
     all_date_int = [] #epoch
     all_time_int = [] #room
-    all_temp_int = [] #room
+    all_temp_int = [] #temp
+    all_course =[]
     all_date = [] #date
     all_date_only =[]
 
-    for id, name, date_int, time_int,temp_int, transdate, transDate in result:
+    for id, name, date_int, time_int,temp_int,course, transdate, transDate in result:
         all_id.append(id)
         all_name.append(name)
         all_date_int.append(date_int)
         all_time_int.append(time_int)
         all_temp_int.append(temp_int)
+        all_course.append(course)
         all_date.append(transdate)
         all_date_only.append(transDate)
 
-    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name,'temp': all_temp_int ,'trans': all_date, 'transD':all_date_only} 
+    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name,'temp': all_temp_int ,'course': all_course, 'trans': all_date, 'transD':all_date_only} 
     df = pd.DataFrame(dic)
     connection.close()
     df.to_csv('exported.csv')
@@ -529,7 +535,8 @@ def trace():
                             trans = df[df['id'] == infected_id[i]]['trans'].item()
                             room = df[df['id'] == infected_id[i]]['room'].item()
                             temp = df[df['id'] == infected_id[i]]['temp'].item()
-                            final_infected_names.append((name, trans, room, temp))
+                            course = df[df['id'] == infected_id[i]]['course'].item()
+                            final_infected_names.append((name, trans, room, temp,course))
     
         return final_infected_names
 
@@ -558,7 +565,7 @@ def trace():
 
     if len(i_name) > 0:
         for i in i_name:
-            my_button = Button(myframe, text=f"Name: {i[0]}     DateTime: {i[1]}     Temp: {i[3]}      Room: {i[2]}", width=75, font=('Times', 20), command=lambda button_text=i[0]: click_name(button_text)).pack()
+            my_button = Button(myframe, text=f"Name: {i[0]}     DateTime: {i[1]}     Temp: {i[3]}      Room: {i[2]}      Course: {i[4]}", width=75, font=('Times', 20), command=lambda button_text=i[0]: click_name(button_text)).pack()
 
     else:
         Label(myframe, text="No One", font=('Times', 15)).pack()
@@ -751,9 +758,9 @@ def save_details():
     else:
         try:
             sql_connection()
-            sql = "INSERT INTO logs (name, transdate, epoch, room,temp) VALUES (%s, %s, %s, %s, %s)"
-            val = (name_text, currentDateAndTime, epoch, detail_room_entry.get(),temp_text)
-            result = cursor.execute(sql, val)
+            sql = "INSERT INTO logs (name, transdate, epoch, room,temp,course) VALUES (%s, %s, %s, %s, %s, %s)" #added course
+            val = (name_text, currentDateAndTime, epoch, detail_room_entry.get(),temp_text,course_text) #added course
+            result = cursor.execute(sql, val) 
             connection.commit()
             tkinter.messagebox.showinfo(title="Success!", message="Image and data successfully inserted!")
             temp = ""
