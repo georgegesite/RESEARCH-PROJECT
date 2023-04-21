@@ -124,7 +124,7 @@ def start_program():
     monitoring_button.place(x=750, y=700)
 
     scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),
-                                    command=register)
+                                    command=scan_id)
     scan_button.place(x=2, y=700)
 
 def entrance_monitoring():
@@ -484,7 +484,7 @@ def trace():
         all_time_int.append(time_int)
         all_date.append(transdate)
 
-    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name, 'trans': all_date} #alter for contact number 
+    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name, 'trans': all_date} 
     df = pd.DataFrame(dic)
     connection.close()
     df.to_csv('exported.csv')
@@ -493,13 +493,25 @@ def trace():
     df = pd.read_csv('exported.csv')
 
     def get_infected_names(unique_id):
+        # convert unique_id to integer
         unique_id = int(unique_id)
+    
+        # get the room of the person with the given unique_id from the DataFrame
         name_room = df[df['id'] == int(unique_id)]['room'].item()
-        epsilon = 0.4 #to be changed
+    
+        # set the value for epsilon
+        epsilon = 0.4 #to be changed optimal 0.38 to 0.4
+    
+        # apply DBSCAN algorithm on DataFrame columns 'room' and 'datetime'
         model = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(df[['room', 'datetime']])
+    
+        # assign the cluster labels to each record in the DataFrame
         df['cluster'] = model.labels_.tolist()
 
+        # create an empty list to hold the cluster labels of the person with the given unique_id
         input_name_clusters = []
+    
+        # iterate through the DataFrame rows and add the cluster labels of the person with the given unique_id to the list
         for i in range(len(df)):
             if df['id'][i] == unique_id:
                 if df['cluster'][i] in input_name_clusters:
@@ -507,7 +519,10 @@ def trace():
                 else:
                     input_name_clusters.append(df['cluster'][i])
 
+        # create an empty list to hold the unique_ids of the infected persons
         infected_id = []
+    
+        # iterate through the cluster labels of the person with the given unique_id and add the unique_ids of the persons in the same cluster to the list
         for cluster in input_name_clusters:
             if cluster != -1:
                 ids_in_cluster = df.loc[df['cluster'] == cluster, 'id']
@@ -517,16 +532,20 @@ def trace():
                         infected_id.append(member_id)
                     else:
                         pass
-
+    
+        # create an empty list to hold the names of the infected persons
         final_infected_names = []
+    
+        # iterate through the unique_ids of the infected persons and add their names to the list
         for i in range(len(infected_id)):
-            # if (df[df['id'] == int(infected_id[i])]['trans'].item()) == tracedate.strftime("%Y-%m-%d %H:%i"): #"dili na sya mo check if same day"
+            #if (df[df['id'] == int(infected_id[i])]['trans'].item()) == tracedate.strftime("%Y-%m-%d %H:%i"): #"dili na sya mo check if same day"
                 if (df[df['id'] == int(infected_id[i])]['name'].item()) != tracename:
                     if (df[df['id'] == int(infected_id[i])]['room'].item()) == name_room:
                         if not df[df['id'] == infected_id[i]]['name'].item() in final_infected_names:
                             final_infected_names.append(df[df['id'] == infected_id[i]]['name'].item())
-
+    
         return final_infected_names
+
 
     i_name = get_infected_names(unique_id)
 
@@ -551,9 +570,17 @@ def trace():
 
     if len(i_name) > 0:
         for i in i_name:
-            my_button = Button(myframe, text=i, width=97, font=('Times', 15), command=lambda button_text=i: click_name(button_text)).pack()
+            my_button = Button(myframe, text=i, width=75, font=('Times', 20), command=lambda button_text=i: click_name(button_text)).pack()
     else:
         Label(myframe, text="No One", font=('Times', 15)).pack()
+    # if len(i_name) > 0:
+    #     for i in i_name:
+    #         info_str = f"{i} - Room {df[df['name']==i]['room'].item()} - {df[df['name']==i]['trans'].item()}"
+    #         my_button = Button(myframe, text=info_str, width=97, font=('Times', 15), command=lambda button_text=i: click_name(button_text)).pack()
+    # else:
+    #     Label(myframe, text="No One", font=('Times', 15)).pack()
+
+
     
 def click_name(text):
     new = Toplevel(root)
@@ -773,6 +800,7 @@ def show_details():
     global course_text
     global currentDateAndTime
     global address_text
+    global phone_text
     global temp_text
     global rfid_image_label
     global detail_id_label
@@ -812,53 +840,54 @@ def show_details():
     for result in results:
         result = list(result)
         from_db.append(result)
-        image = result[5]
+        image = result[6]
 
         convert_data(image, "user.jpg")
 
-    columns = ["id", "rfid", "name", "course", "address","image"]
+    columns = ["id", "rfid", "name", "course", "address" ,"phone","image"]
     df = pd.DataFrame(from_db, columns=columns)
 
     name_text = df[df['rfid'] == rfid_code]['name'].item()
     course_text = df[df['rfid'] == rfid_code]['course'].item()
     address_text = df[df['rfid'] == rfid_code]['address'].item()
+    phone_text = df[df['rfid'] == rfid_code]['phone'].item()
 
     rfid = Image.open("user.jpg")
     rfid_resized = rfid.resize((350, 350))
     image = ImageTk.PhotoImage(rfid_resized)
     image_label = Label(image=image)
-    image_label.place(x=100, y=230)
+    image_label.place(x=100+200, y=230)
 
     temp_text = temp#+"\N{DEGREE SIGN}C" for python degress celsius sign
 
     detail_id_label = Label(root, text="RFID: ", font=('Times', 25))
-    detail_id_label.place(x=500+40, y=180+10+20)
+    detail_id_label.place(x=500+40+200, y=180+10+20)
     detail_id = Label(root, text=rfid_code, font=('Times', 25))
-    detail_id.place(x=600+40, y=180+10+20)
+    detail_id.place(x=600+40+200, y=180+10+20)
     detail_name_label = Label(root, text="Name: ", font=('Times', 25))
-    detail_name_label.place(x=500+40, y=220+10+10+20)
+    detail_name_label.place(x=500+40+200, y=220+10+10+20)
     detail_name = Label(root, text=name_text, font=('Times', 25))
-    detail_name.place(x=600+40, y=220+10+10+20)
+    detail_name.place(x=600+40+200, y=220+10+10+20)
     detail_course_label = Label(root, text="Course: ", font=('Times', 25))
-    detail_course_label.place(x=500+40, y=260+10+10+10+20)
+    detail_course_label.place(x=500+40+200, y=260+10+10+10+20)
     detail_course = Label(root,text=course_text, font=('Times', 25))
-    detail_course.place(x=600+40, y=260+10+10+10+20)
+    detail_course.place(x=600+40+20+200, y=260+10+10+10+20)
     detail_address_label = Label(root, text="Address: ", font=('Times', 25))
-    detail_address_label.place(x=500+40, y=300+10+10+10+10+20)
+    detail_address_label.place(x=500+40+200, y=300+10+10+10+10+20)
     detail_address = Label(root, text=address_text, font=('Times', 25))
-    detail_address.place(x=600+40, y=300+10+10+10+10+20)
+    detail_address.place(x=600+40+20+200, y=300+10+10+10+10+20)
     detail_time_label = Label(root, text="Time: ", font=('Times', 25))
-    detail_time_label.place(x=500+40, y=340+10+10+10+10+10+20)
+    detail_time_label.place(x=500+40+200, y=340+10+10+10+10+10+20)
     detail_time = Label(root, text=currentTime, font=('Times', 25))
-    detail_time.place(x=600+40, y=340+10+10+10+10+10+20)
+    detail_time.place(x=600+40+200, y=340+10+10+10+10+10+20)
     detail_temp_label = Label(root, text="Temperature: ", font=('Times', 25))
-    detail_temp_label.place(x=500+40, y=380+10+10+10+10+10+10+20)
+    detail_temp_label.place(x=500+40+200, y=380+10+10+10+10+10+10+20)
     detail_temp = Label(root, text=temp_text, font=('Times', 25))
-    detail_temp.place(x=640+40, y=380+10+10+10+10+10+1+20)
+    detail_temp.place(x=640+40+20+20+200, y=380+10+10+10+10+10+10+20)
     detail_room_label = Label(root, text="Room: ", font=('Times', 25))
-    detail_room_label.place(x=500+40, y=420+10+10+10+10+10+10+10+20)
+    detail_room_label.place(x=500+40+200, y=420+10+10+10+10+10+10+10+20)
     detail_room_entry = ttk.Entry(root, width=20, font=('Times', 25))
-    detail_room_entry.place(x=600+40, y=425+70+20)
+    detail_room_entry.place(x=600+40+200, y=425+70+20)
 
     save_button = Button(root, text="Save", padx=10, pady=10, font=('Times', 30),command=save_details)
     save_button.place(x=1310, y=700)
