@@ -1,8 +1,6 @@
-#WORKING GUI 1440 x 900
-#WORKING SQL C:\Users\GEORGIE\Dropbox\4th year 2nd sem\CPE 421 CpE Practice and Design 2\Workingupdate0420.sql
-#WORKING on adding contact number
-#working on more info on contact tracing
-#adding course to entrance monitoring and contact tracing
+# CTDBSCAN3.py 
+# working on dbscan day today and day before - worked
+# finding the right epsilon value
 from datetime import datetime
 import time
 import tkinter.messagebox
@@ -20,6 +18,7 @@ from mysql.connector import Error
 import calendar
 import serial
 import schedule
+from dateutil.relativedelta import relativedelta
 
 root = Tk()
 root.title("Contact Tracing")
@@ -529,7 +528,12 @@ def trace():
                         pass
         final_infected_names = []
         for i in range(len(infected_id)):
-            if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #mo check if same day
+            tracedate_str = tracedate.strftime("%Y-%m-%d")
+            tracedate_dt = datetime.strptime(tracedate_str, "%Y-%m-%d")
+            prev_date = tracedate_dt - relativedelta(days=1)
+            prev_date_str = prev_date.strftime("%Y-%m-%d")
+            if (df[df['id'] == int(infected_id[i])]['transD'].item()) in [tracedate_str, prev_date_str]:
+            # if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #mo check if same day
                 if (df[df['id'] == int(infected_id[i])]['name'].item()) != tracename:
                     if (df[df['id'] == int(infected_id[i])]['room'].item()) == name_room:
                         if not df[df['id'] == infected_id[i]]['name'].item() in final_infected_names:

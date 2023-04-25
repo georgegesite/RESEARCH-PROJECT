@@ -26,12 +26,12 @@ root.title("Contact Tracing")
 root.resizable(False, False)
 root.geometry("1440x800") #edit window
 
-global is_header  
+global is_header
 global is_home
 global rfid_code
 global temp
 global arport
-arport = "COM6"
+arport = "COM5"
 temp = ""
 rfid_code = ""
 is_home = False
@@ -470,7 +470,7 @@ def trace():
 
     sql_connection()
 
-    cursor.execute("SELECT id, NAME, epoch, room,course, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS transdate, DATE(transDate),temp FROM LOGS")
+    cursor.execute("SELECT id, NAME, epoch, room, temp,course, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS transdate, DATE(transDate) FROM LOGS")
     # cursor.execute("SELECT id,name,epoch,room,DATE(transdate) FROM logs")
 
     result = cursor.fetchall()
@@ -479,22 +479,22 @@ def trace():
     all_name = []#name
     all_date_int = [] #epoch
     all_time_int = [] #room
+    all_temp_int = [] #temp
     all_course =[]
     all_date = [] #date
     all_date_only =[]
-    all_temp_int = [] #temp
 
-    for id, name, date_int, time_int,course, transdate, transDate,temp_int in result:
+    for id, name, date_int, time_int,temp_int,course, transdate, transDate in result:
         all_id.append(id)
         all_name.append(name)
         all_date_int.append(date_int)
         all_time_int.append(time_int)
+        all_temp_int.append(temp_int)
         all_course.append(course)
         all_date.append(transdate)
         all_date_only.append(transDate)
-        all_temp_int.append(temp_int)
 
-    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name,'course': all_course, 'trans': all_date, 'transD':all_date_only,'temp': all_temp_int } 
+    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name,'temp': all_temp_int ,'course': all_course, 'trans': all_date, 'transD':all_date_only} 
     df = pd.DataFrame(dic)
     connection.close()
     df.to_csv('exported.csv')
@@ -504,10 +504,8 @@ def trace():
 
     def get_infected_names(unique_id):
         unique_id = int(unique_id)
-        # print(unique_id)
-        name_room = df[df['id'] == int(unique_id)]['room'].item() #or name_room = df[df['id'] == int(unique_id)]['room'].iloc[0]
-        # print(name_room)
-        epsilon = 1 #to be changed optimal 0.38 to 0.4 0.38000 to 1.00000
+        name_room = df[df['id'] == int(unique_id)]['room'].item()
+        epsilon = 1 #to be changed optimal 0.38 to 0.4
         model = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(df[['room', 'datetime']])
         df['cluster'] = model.labels_.tolist()
         input_name_clusters = []
@@ -529,7 +527,7 @@ def trace():
                         pass
         final_infected_names = []
         for i in range(len(infected_id)):
-            if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #mo check if same day
+            if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #"dili na sya mo check if same day"
                 if (df[df['id'] == int(infected_id[i])]['name'].item()) != tracename:
                     if (df[df['id'] == int(infected_id[i])]['room'].item()) == name_room:
                         if not df[df['id'] == infected_id[i]]['name'].item() in final_infected_names:
@@ -567,7 +565,7 @@ def trace():
 
     if len(i_name) > 0:
         for i in i_name:
-            my_button = Button(myframe, text=f"Name: {i[0]}     DateTime: {i[1]}     Temp: {i[3]}      \nRoom: {i[2]}      Course: {i[4]}", width=75, font=('Times', 20), command=lambda button_text=i[0]: click_name(button_text)).pack()
+            my_button = Button(myframe, text=f"Name: {i[0]}     DateTime: {i[1]}     Temp: {i[3]}      Room: {i[2]}      Course: {i[4]}", width=75, font=('Times', 20), command=lambda button_text=i[0]: click_name(button_text)).pack()
 
     else:
         Label(myframe, text="No One", font=('Times', 15)).pack()
