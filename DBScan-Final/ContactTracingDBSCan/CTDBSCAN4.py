@@ -124,7 +124,7 @@ def start_program():
     monitoring_button.place(x=750, y=700)
 
     scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),
-                                    command=scan_id)
+                                    command=register)
     scan_button.place(x=2, y=700)
 
 def entrance_monitoring():

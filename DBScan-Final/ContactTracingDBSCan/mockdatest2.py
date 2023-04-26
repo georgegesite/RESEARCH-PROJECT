@@ -119,9 +119,9 @@ rooms = list(range(101, 111)) + list(range(201, 211)) + list(range(301, 311))
 
 # Generate data
 data = []
-for i in range(100):
+for i in range(90):
     # Set up ID
-    id_num = 115 + i
+    id_num = 125 + i
 
     # Set up name
     if len(names) > 0:
@@ -150,7 +150,6 @@ for i in range(100):
 
     # Set up temperature
     temp = round(random.normalvariate(36.5, 0.5), 2)
-
     course = "BSCPE 4A"
 
     # Append to data list
@@ -165,7 +164,7 @@ for i in range(100):
     })
 
 # Write data to file
-with open("mock_data3.json", "w") as f:
+with open("mock_data.json", "w") as f:
     json.dump(data, f, indent=2)
 
 

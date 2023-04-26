@@ -1,6 +1,6 @@
 import random
 import time
-import json
+import csv
 from datetime import datetime, timedelta
 
 # Set up random seed for consistent results
@@ -119,7 +119,7 @@ rooms = list(range(101, 111)) + list(range(201, 211)) + list(range(301, 311))
 
 # Generate data
 data = []
-for i in range(100):
+for i in range(90):
     # Set up ID
     id_num = 115 + i
 
@@ -136,7 +136,7 @@ for i in range(100):
         name = "Unknown"
 
     # Set up transaction date
-    date = datetime(2023, 4, 26) + timedelta(days=random.choice([0, 1]))
+    date = datetime(2023, 4, 25) + timedelta(days=random.choice([0, 1]))
     hour = random.randint(7, 20)
     minute = random.randint(0, 59)
     second = random.randint(0, 59)
@@ -150,27 +150,25 @@ for i in range(100):
 
     # Set up temperature
     temp = round(random.normalvariate(36.5, 0.5), 2)
-
     course = "BSCPE 4A"
 
     # Append to data list
-    data.append({
-        "id": id_num,
-        "name": name,
-        "transdate": transdate,
-        "epoch": epoch,
-        "room": room,
-        "temp": f"{temp} C\r\n",
-        "course": course
-    })
+    # Append to data list
+    data.append([
+        id_num,
+        name,
+        transdate,
+        epoch,
+        room,
+        temp,
+        course
+    ])
 
-# Write data to file
-with open("mock_data3.json", "w") as f:
-    json.dump(data, f, indent=2)
-
-
-
-
+# Write data to CSV file
+with open("mock_data2.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["id", "name", "transdate", "epoch", "room", "temp", "course"])
+    writer.writerows(data)
 
 
 
