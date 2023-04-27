@@ -390,35 +390,20 @@ def trace_checker():
     else:
         sql_connection()
 
-        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"'")
-        # cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"'")
-        # SELECT id, DATE(transdate) FROM contact_tracer.logs WHERE `name`= "Gesite, George Jr C."
-
+        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
+        dateEntry = date_entry.get()
         result = cursor.fetchall()
-        for row in result:
-            print(row)
-        # if len(result) >= 1:
-        #     for row in result:
-        #         temp_id = row[0]
-        #         time_id = row[1]
-        #         if time_id == date_entry.get():
-        #             unique_id =temp_id
-        #             tracename = name_entry.get()
-        #             tracedate = row[2]
-        #             clean = True
+
         if len(result) >= 1:
             for row in result:
-                temp_id = row[0]
-                time_id = row[1]
-                unique_id =temp_id
-                tracename = name_entry.get()
-                tracedate = row[2]
-                date_entry2 = datetime.strptime(date_entry.get(), '%Y_%m_%d')
-                # check if tracedate is within the date_entry() and the day before
-                if tracedate >= date_entry2 - timedelta(days=1) and tracedate <= date_entry:
+                temp_id = row[0] #id    
+                time_id = row[1] #formated date YY MM DD HH MM
+                checkdate = row[2] #newdate YY MM DD
+                tracedate = row[3] #transdate YY MM DD 
+                if checkdate == dateEntry:
+                    unique_id =temp_id
+                    tracename = name_entry.get()
                     trace()
-                else:
-                    messagebox.showwarning('Error', 'Date not affiliated with name!! Please Recheck your inputs')
 
         elif len(result) == 0:
             messagebox.showwarning('Error', 'No Name and Date Found!!')
@@ -470,7 +455,10 @@ def contact_tracing():
 
     Label(myframe, text="No One").pack()
 
+contact_tracing_list_final =[] #final list of contact tracing
+
 def trace():
+  
     trace_button.destroy()
     global myframe
     global traced_frame
@@ -555,13 +543,14 @@ def trace():
                                 temp = df[df['id'] == infected_id[i]]['temp'].item()
                                 course = df[df['id'] == infected_id[i]]['course'].item()
                                 final_infected_names.append((name, trans, room, temp,course))
+                                contact_tracing_list_final.append((name, trans, room, temp,course))
     
         return final_infected_names
 
 
     i_name = get_infected_names(unique_id)
+    final_names = contact_tracing_list_final
 
-    # traced_frame = LabelFrame(root, text="                                           Name            Date/Time            Room        Temp", font=('Times', 20))
     traced_frame = LabelFrame(root, text="People Subject to Contact Tracing", font=('Times', 20))
     traced_frame_canvas = Canvas(traced_frame)
     traced_frame_canvas.pack(side=LEFT, fill="both", expand="yes")
@@ -581,12 +570,14 @@ def trace():
     back_button2 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_contact_traced)
     back_button2.place(x=1305, y=700)
 
-    if len(i_name) > 0:
-        for i in i_name:
+    if len(final_names) > 0:
+        for i in final_names:
             my_button = Button(myframe, text=f"Name: {i[0]}     DateTime: {i[1]}     Temp: {i[3]}      \nRoom: {i[2]}      Course: {i[4]}", width=75, font=('Times', 20), command=lambda button_text=i[0]: click_name(button_text)).pack()
 
     else:
         Label(myframe, text="No One", font=('Times', 15)).pack()
+
+    
 
 def click_name(text):
     new = Toplevel(root)
