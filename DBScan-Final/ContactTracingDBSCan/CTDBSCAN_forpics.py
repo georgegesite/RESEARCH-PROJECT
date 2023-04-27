@@ -1,7 +1,6 @@
 # CTDBSCAN3.py 
-# working on dbscan day today and day before(WITHIN 2 DAYS) - worked
+# working on dbscan day today and day before - worked
 # finding the right epsilon value
-# user details dimakita full address - WORKED
 from datetime import datetime
 import time
 import tkinter.messagebox
@@ -125,7 +124,7 @@ def start_program():
     monitoring_button.place(x=750, y=700)
 
     scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),
-                                    command=show_details)
+                                    command=clear_start_show_details)
     scan_button.place(x=2, y=700)
 
 def entrance_monitoring():
@@ -581,7 +580,7 @@ def click_name(text):
     new = Toplevel(root)
     new.title("Description")
     new.resizable(False, False)
-    new.geometry("1200x400")
+    new.geometry("800x400")
     # Create a Label in New window
     Label(new, text="User Details", font=('Helvetica 17 bold')).pack(pady=30)
 
@@ -908,6 +907,7 @@ def scan_temp():
             sent = arduino.write(b'A')
             packet = arduino.readline()
             temp = packet.decode('utf-8')
+            temp ="36.78"
             if len(temp) > 3:
                 break
             if counter == 2:

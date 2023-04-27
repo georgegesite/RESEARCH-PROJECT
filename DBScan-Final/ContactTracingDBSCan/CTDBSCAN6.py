@@ -1,8 +1,9 @@
-# CTDBSCAN3.py 
-# working on dbscan day today and day before(WITHIN 2 DAYS) - worked
-# finding the right epsilon value
+# CTDBSCAN6.py version 0.6
+# working on dbscan within the 30 minutes before and after - WORKED
 # user details dimakita full address - WORKED
-from datetime import datetime
+# contact tracing feature in the making
+
+from datetime import datetime, timedelta
 import time
 import tkinter.messagebox
 from tkinter import *
@@ -382,6 +383,7 @@ def trace_checker():
     global unique_id
     global tracename
     global tracedate
+    global time_id
     clean = False
     if name_entry.get() == "" or date_entry.get() == "":
         messagebox.showwarning('Error', 'Please Fill in Name and Date!')
@@ -389,24 +391,34 @@ def trace_checker():
         sql_connection()
 
         cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"'")
+        # cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"'")
+        # SELECT id, DATE(transdate) FROM contact_tracer.logs WHERE `name`= "Gesite, George Jr C."
 
         result = cursor.fetchall()
-
+        for row in result:
+            print(row)
+        # if len(result) >= 1:
+        #     for row in result:
+        #         temp_id = row[0]
+        #         time_id = row[1]
+        #         if time_id == date_entry.get():
+        #             unique_id =temp_id
+        #             tracename = name_entry.get()
+        #             tracedate = row[2]
+        #             clean = True
         if len(result) >= 1:
             for row in result:
                 temp_id = row[0]
-                time = row[1]
-                if time == date_entry.get():
-                    unique_id=temp_id
-                    tracename = name_entry.get()
-                    tracedate = row[2]
-                    clean = True
-
-            if clean:
-                trace()
-            else:
-                messagebox.showwarning('Error', 'Date not affiliated with name!! Please Recheck your inputs')
-
+                time_id = row[1]
+                unique_id =temp_id
+                tracename = name_entry.get()
+                tracedate = row[2]
+                date_entry2 = datetime.strptime(date_entry.get(), '%Y_%m_%d')
+                # check if tracedate is within the date_entry() and the day before
+                if tracedate >= date_entry2 - timedelta(days=1) and tracedate <= date_entry:
+                    trace()
+                else:
+                    messagebox.showwarning('Error', 'Date not affiliated with name!! Please Recheck your inputs')
 
         elif len(result) == 0:
             messagebox.showwarning('Error', 'No Name and Date Found!!')
@@ -507,7 +519,7 @@ def trace():
         # print(unique_id)
         name_room = df[df['id'] == int(unique_id)]['room'].item() #or name_room = df[df['id'] == int(unique_id)]['room'].iloc[0]
         # print(name_room)
-        epsilon = 1 #to be changed optimal 0.38 to 0.4 0.38000 to 1.00000
+        epsilon = 0.5 #to be changed optimal 0.38 to 0.4 0.38000 to 1.00000
         model = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(df[['room', 'datetime']])
         df['cluster'] = model.labels_.tolist()
         input_name_clusters = []
@@ -529,21 +541,20 @@ def trace():
                         pass
         final_infected_names = []
         for i in range(len(infected_id)):
-            tracedate_str = tracedate.strftime("%Y-%m-%d")
-            tracedate_dt = datetime.strptime(tracedate_str, "%Y-%m-%d")
-            prev_date = tracedate_dt - relativedelta(days=1)
-            prev_date_str = prev_date.strftime("%Y-%m-%d")
-            if (df[df['id'] == int(infected_id[i])]['transD'].item()) in [tracedate_str, prev_date_str]:
-            # if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #mo check if same day
+            if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #mo check if same day
                 if (df[df['id'] == int(infected_id[i])]['name'].item()) != tracename:
                     if (df[df['id'] == int(infected_id[i])]['room'].item()) == name_room:
                         if not df[df['id'] == infected_id[i]]['name'].item() in final_infected_names:
                             name = df[df['id'] == infected_id[i]]['name'].item()
                             trans = df[df['id'] == infected_id[i]]['trans'].item()
-                            room = df[df['id'] == infected_id[i]]['room'].item()
-                            temp = df[df['id'] == infected_id[i]]['temp'].item()
-                            course = df[df['id'] == infected_id[i]]['course'].item()
-                            final_infected_names.append((name, trans, room, temp,course))
+                            trans_dt = datetime.strptime(trans, "%Y-%m-%d %H:%M")
+                            time_id2 = datetime.strptime(time_id, "%Y-%m-%d %H:%M")
+                            time_diff = abs(trans_dt - time_id2)
+                            if time_diff <= timedelta(minutes=30):
+                                room = df[df['id'] == infected_id[i]]['room'].item()
+                                temp = df[df['id'] == infected_id[i]]['temp'].item()
+                                course = df[df['id'] == infected_id[i]]['course'].item()
+                                final_infected_names.append((name, trans, room, temp,course))
     
         return final_infected_names
 

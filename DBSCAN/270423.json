@@ -1,0 +1,1334 @@
+[ 
+
+{ 
+"id":103,
+"name":"Instructor D",
+"transdate":"2023-04-23 16:43:48",
+"epoch":1682268227,
+"room":205,
+"temp":"33.43 C\r",
+"course":"BSCE"
+},
+{ 
+"id":104,
+"name":"George Jr Gesite",
+"transdate":"2023-04-24 20:51:53",
+"epoch":1682369513,
+"room":205,
+"temp":"34.25 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":105,
+"name":"George Jr Gesite",
+"transdate":"2023-04-24 20:56:26",
+"epoch":1682369786,
+"room":203,
+"temp":"36.25 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":106,
+"name":"Robert Kin Gohil",
+"transdate":"2023-04-24 20:57:28",
+"epoch":1682369847,
+"room":210,
+"temp":"35.55 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":107,
+"name":"Robert Kin Gohil",
+"transdate":"2023-04-24 21:10:02",
+"epoch":1682370601,
+"room":203,
+"temp":"35.37 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":109,
+"name":"Jotojot, Jelian Kate",
+"transdate":"2023-04-26 07:01:05",
+"epoch":1682463665,
+"room":201,
+"temp":"35.92 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":110,
+"name":"Gohil, Robert Kin T.",
+"transdate":"2023-04-26 10:28:37",
+"epoch":1682476117,
+"room":201,
+"temp":"37.37 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":111,
+"name":"Lampios, Claire Ann",
+"transdate":"2023-04-26 09:13:48",
+"epoch":1682471628,
+"room":201,
+"temp":"35.95 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":112,
+"name":"Gesite, George Jr C.",
+"transdate":"2023-04-24 18:17:15",
+"epoch":1682417835,
+"room":201,
+"temp":"36.95 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":116,
+"name":"Rubin, Daniel",
+"transdate":"2023-04-26 16:27:02",
+"epoch":1682497622,
+"room":101,
+"temp":"36.05 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":117,
+"name":"Boyboy, Juvenar, Jr",
+"transdate":"2023-04-26 15:12:45",
+"epoch":1682493165,
+"room":301,
+"temp":"36.8 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":118,
+"name":"Andrade, Jhune Maureen",
+"transdate":"2023-04-27 19:55:00",
+"epoch":1682596500,
+"room":305,
+"temp":"37.37 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":119,
+"name":"Enad, Lemuel Jay",
+"transdate":"2023-04-27 09:13:48",
+"epoch":1682558028,
+"room":201,
+"temp":"35.95 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":120,
+"name":"Laguitao, Jessie Ryle",
+"transdate":"2023-04-27 16:16:51",
+"epoch":1682583411,
+"room":102,
+"temp":"36.92 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":121,
+"name":"Napallacan, Franz Mark",
+"transdate":"2023-04-26 15:18:53",
+"epoch":1682493533,
+"room":301,
+"temp":"37.24 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":122,
+"name":"Budiongan, Elvan",
+"transdate":"2023-04-26 18:04:02",
+"epoch":1682503442,
+"room":302,
+"temp":"36.17 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":123,
+"name":"Peligrino, Niu00f1olito, E.",
+"transdate":"2023-04-26 20:06:24",
+"epoch":1682510784,
+"room":109,
+"temp":"36.26 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":124,
+"name":"Toh, Ian Rafael, A.",
+"transdate":"2023-04-27 12:13:42",
+"epoch":1682568822,
+"room":109,
+"temp":"37.05 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":126,
+"name":"Rubin, Daniel",
+"transdate":"2023-04-26 16:27:02",
+"epoch":1682497622,
+"room":101,
+"temp":"36.05 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":127,
+"name":"Boyboy, Juvenar, Jr",
+"transdate":"2023-04-26 15:12:45",
+"epoch":1682493165,
+"room":301,
+"temp":"36.8 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":128,
+"name":"Andrade, Jhune Maureen",
+"transdate":"2023-04-27 19:55:00",
+"epoch":1682596500,
+"room":305,
+"temp":"37.37 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":129,
+"name":"Enad, Lemuel Jay",
+"transdate":"2023-04-27 09:13:48",
+"epoch":1682558028,
+"room":201,
+"temp":"35.95 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":130,
+"name":"Laguitao, Jessie Ryle",
+"transdate":"2023-04-27 16:16:51",
+"epoch":1682583411,
+"room":102,
+"temp":"36.92 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":131,
+"name":"Napallacan, Franz Mark",
+"transdate":"2023-04-26 15:18:53",
+"epoch":1682493533,
+"room":301,
+"temp":"37.24 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":132,
+"name":"Budiongan, Elvan",
+"transdate":"2023-04-26 18:04:02",
+"epoch":1682503442,
+"room":302,
+"temp":"36.17 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":133,
+"name":"Peligrino, Niu00f1olito, E.",
+"transdate":"2023-04-26 20:06:24",
+"epoch":1682510784,
+"room":109,
+"temp":"36.26 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":134,
+"name":"Toh, Ian Rafael, A.",
+"transdate":"2023-04-27 12:13:42",
+"epoch":1682568822,
+"room":109,
+"temp":"37.05 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":135,
+"name":"Montoya, Jester, A.",
+"transdate":"2023-04-26 15:46:15",
+"epoch":1682495175,
+"room":106,
+"temp":"36.46 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":136,
+"name":"Amolato, Jeneveve, A.",
+"transdate":"2023-04-26 17:20:53",
+"epoch":1682500853,
+"room":305,
+"temp":"36.81 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":137,
+"name":"Canizares, Michael T",
+"transdate":"2023-04-27 13:17:04",
+"epoch":1682572624,
+"room":107,
+"temp":"37.32 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":138,
+"name":"Perpetua, Crystel Jem, P.",
+"transdate":"2023-04-27 10:41:31",
+"epoch":1682563291,
+"room":203,
+"temp":"37.42 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":139,
+"name":"Vallecera, Mel Vincent, B.",
+"transdate":"2023-04-27 09:15:47",
+"epoch":1682558147,
+"room":208,
+"temp":"36.63 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":140,
+"name":"Danila, Rogimie",
+"transdate":"2023-04-27 12:14:08",
+"epoch":1682568848,
+"room":207,
+"temp":"36.48 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":141,
+"name":"Rollin, John Mackenly, B.",
+"transdate":"2023-04-26 17:10:50",
+"epoch":1682500250,
+"room":302,
+"temp":"36.43 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":142,
+"name":"Bacol, Deannah May",
+"transdate":"2023-04-27 15:16:35",
+"epoch":1682579795,
+"room":308,
+"temp":"37.43 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":143,
+"name":"Respecia, Charles Rene",
+"transdate":"2023-04-26 11:27:10",
+"epoch":1682479630,
+"room":205,
+"temp":"36.96 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":144,
+"name":"Ranario, Carl Titus, L.",
+"transdate":"2023-04-27 20:40:32",
+"epoch":1682599232,
+"room":210,
+"temp":"36.09 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":145,
+"name":"Cutanda, Angel Kristie, O.",
+"transdate":"2023-04-26 16:20:31",
+"epoch":1682497231,
+"room":101,
+"temp":"35.98 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":146,
+"name":"Mendez, Kean",
+"transdate":"2023-04-26 11:15:56",
+"epoch":1688939756,
+"room":209,
+"temp":"36.49 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":147,
+"name":"Tampos, Clifford John",
+"transdate":"2023-04-26 09:42:30",
+"epoch":1682473350,
+"room":208,
+"temp":"35.89 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":148,
+"name":"Fullido, Zendy Shervyl, M.",
+"transdate":"2023-04-27 10:59:34",
+"epoch":1682564374,
+"room":305,
+"temp":"36.75 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":149,
+"name":"Rebarbas, Rod Kristian",
+"transdate":"2023-04-27 17:41:23",
+"epoch":1682588483,
+"room":205,
+"temp":"37.12 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":150,
+"name":"Anub, Jeremiah Rey",
+"transdate":"2023-04-26 11:40:01",
+"epoch":1684989601,
+"room":209,
+"temp":"36.61 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":151,
+"name":"Abueva, Stephen, S.",
+"transdate":"2023-04-26 18:40:03",
+"epoch":1682505603,
+"room":108,
+"temp":"36.2 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":152,
+"name":"Laureano, Bryan",
+"transdate":"2023-04-27 10:34:08",
+"epoch":1682562848,
+"room":304,
+"temp":"37.37 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":153,
+"name":"Mahilum, Shin, L.",
+"transdate":"2023-04-26 19:30:51",
+"epoch":1682508651,
+"room":204,
+"temp":"36.21 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":154,
+"name":"Banol, Felipe Jr. S.",
+"transdate":"2023-04-27 13:26:29",
+"epoch":1682573189,
+"room":308,
+"temp":"37.1 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":155,
+"name":"Saligumba, Emmanuel Jr, P.",
+"transdate":"2023-04-26 13:46:21",
+"epoch":1682487981,
+"room":306,
+"temp":"36.91 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":156,
+"name":"Olajay, Jinnyrose, G.",
+"transdate":"2023-04-27 09:27:11",
+"epoch":1682558831,
+"room":109,
+"temp":"36.24 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":157,
+"name":"Ponce, Jairo, B.",
+"transdate":"2023-04-27 19:55:54",
+"epoch":1682596554,
+"room":208,
+"temp":"35.51 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":158,
+"name":"Longos, Dharlean Jeaseari, F.",
+"transdate":"2023-04-26 08:59:48",
+"epoch":1682470788,
+"room":308,
+"temp":"36.12 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":159,
+"name":"Ylaya, John Friderick, S.",
+"transdate":"2023-04-26 20:25:57",
+"epoch":1682511957,
+"room":102,
+"temp":"35.22 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":160,
+"name":"Roperos, Jade Harris",
+"transdate":"2023-04-27 13:44:46",
+"epoch":1682574286,
+"room":306,
+"temp":"36.67 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":161,
+"name":"Esterado, Rica Noreen, T.",
+"transdate":"2023-04-26 11:13:03",
+"epoch":1682478783,
+"room":209,
+"temp":"36.72 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":162,
+"name":"Fullante, Jazmin Joy",
+"transdate":"2023-04-26 07:37:30",
+"epoch":1682465850,
+"room":207,
+"temp":"37.27 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":163,
+"name":"Picato, Kevin Lloyd, J.",
+"transdate":"2023-04-26 20:11:04",
+"epoch":1682511064,
+"room":210,
+"temp":"35.09 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":164,
+"name":"Ricafort, Chester John",
+"transdate":"2023-04-26 16:05:26",
+"epoch":1682496326,
+"room":302,
+"temp":"36.65 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":165,
+"name":"Tan, Marl Kenneth",
+"transdate":"2023-04-26 17:45:20",
+"epoch":1682502320,
+"room":108,
+"temp":"36.27 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":166,
+"name":"Jotojot, Jelian Kate",
+"transdate":"2023-04-27 12:59:48",
+"epoch":1682571588,
+"room":310,
+"temp":"35.82 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":167,
+"name":"Yabo, Jojie, S.",
+"transdate":"2023-04-26 15:13:32",
+"epoch":1682493212,
+"room":109,
+"temp":"36.02 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":168,
+"name":"Ingente, Warren, L.",
+"transdate":"2023-04-26 12:18:10",
+"epoch":1682482690,
+"room":205,
+"temp":"37.47 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":169,
+"name":"Molina, Fritgil Mae",
+"transdate":"2023-04-26 17:52:35",
+"epoch":1682502755,
+"room":110,
+"temp":"36.94 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":170,
+"name":"Campeciu00f1o, Gecille Marie",
+"transdate":"2023-04-26 18:35:09",
+"epoch":1682505309,
+"room":109,
+"temp":"36.26 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":171,
+"name":"Timbal, Margarita Shiela, B.",
+"transdate":"2023-04-26 17:40:54",
+"epoch":1682502054,
+"room":109,
+"temp":"36.51 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":172,
+"name":"Sandigan, Jermedita",
+"transdate":"2023-04-26 08:40:27",
+"epoch":1682469627,
+"room":307,
+"temp":"37.14 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":173,
+"name":"Granada, Jack Danielle, L.",
+"transdate":"2023-04-26 18:28:35",
+"epoch":1682504915,
+"room":303,
+"temp":"36.44 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":174,
+"name":"Lagamao, Alexis",
+"transdate":"2023-04-26 15:02:53",
+"epoch":1682492573,
+"room":202,
+"temp":"36.58 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":175,
+"name":"Suganob, Rogelio Jr., C.",
+"transdate":"2023-04-26 11:23:57",
+"epoch":1682479437,
+"room":310,
+"temp":"36.93 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":176,
+"name":"Lagunoy, Anne Lorainne, C.",
+"transdate":"2023-04-26 12:49:35",
+"epoch":1682484575,
+"room":309,
+"temp":"36.23 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":177,
+"name":"Lim, Jossa, M.",
+"transdate":"2023-04-26 13:01:11",
+"epoch":1682485271,
+"room":304,
+"temp":"36.27 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":178,
+"name":"Auditor, Lutchel, C.",
+"transdate":"2023-04-26 11:10:50",
+"epoch":1682478650,
+"room":303,
+"temp":"36.9 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":179,
+"name":"Caseu00f1as, Jovihanni",
+"transdate":"2023-04-27 11:52:50",
+"epoch":1682567570,
+"room":308,
+"temp":"36.11 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":180,
+"name":"Libardo, Nikko Glenn, F.",
+"transdate":"2023-04-27 12:41:32",
+"epoch":1682570492,
+"room":203,
+"temp":"37.48 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":181,
+"name":"Gohil, Robert Kin T.",
+"transdate":"2023-04-26 08:56:16",
+"epoch":1682470576,
+"room":106,
+"temp":"35.88 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":182,
+"name":"Jabines, Jay Anne",
+"transdate":"2023-04-26 13:57:36",
+"epoch":1682488656,
+"room":107,
+"temp":"35.78 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":183,
+"name":"Amang, Andrei Raphel, T.",
+"transdate":"2023-04-26 12:27:04",
+"epoch":1682483224,
+"room":302,
+"temp":"37.46 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":184,
+"name":"Barril, Cathlene",
+"transdate":"2023-04-26 18:57:19",
+"epoch":1682506639,
+"room":207,
+"temp":"36.22 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":185,
+"name":"Carias, Alyzza Mae",
+"transdate":"2023-04-27 15:08:12",
+"epoch":1682579292,
+"room":204,
+"temp":"36.73 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":186,
+"name":"Daplin, Mylyn, P.",
+"transdate":"2023-04-27 13:35:53",
+"epoch":1682573753,
+"room":101,
+"temp":"36.29 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":187,
+"name":"Valeroso, Kenneth Lorvic",
+"transdate":"2023-04-27 14:28:28",
+"epoch":1682576908,
+"room":302,
+"temp":"36.03 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":188,
+"name":"Dano, Sheila Mae, B.",
+"transdate":"2023-04-26 11:32:42",
+"epoch":1682479962,
+"room":301,
+"temp":"36.61 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":189,
+"name":"Bentulan, Vince Pierre",
+"transdate":"2023-04-27 10:51:12",
+"epoch":1682563872,
+"room":105,
+"temp":"36.36 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":190,
+"name":"Omac, Christian Zyrus, G.",
+"transdate":"2023-04-27 13:56:40",
+"epoch":1682575000,
+"room":209,
+"temp":"35.64 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":191,
+"name":"Lopena, Grant Gregory",
+"transdate":"2023-04-27 10:09:41",
+"epoch":1682561381,
+"room":303,
+"temp":"36.76 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":192,
+"name":"Amper, Bryan",
+"transdate":"2023-04-26 09:51:44",
+"epoch":1682473904,
+"room":207,
+"temp":"36.43 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":193,
+"name":"Calotes, Lyza Mae, M.",
+"transdate":"2023-04-27 09:51:29",
+"epoch":1682560289,
+"room":302,
+"temp":"36.56 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":194,
+"name":"Labonog, Ellah Mae",
+"transdate":"2023-04-27 16:52:46",
+"epoch":1682585566,
+"room":309,
+"temp":"36.52 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":195,
+"name":"Palingcod, Mary Joyce, E.",
+"transdate":"2023-04-27 09:47:55",
+"epoch":1682560075,
+"room":206,
+"temp":"36.33 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":196,
+"name":"Tadle, Joel",
+"transdate":"2023-04-27 17:15:17",
+"epoch":1682586917,
+"room":205,
+"temp":"35.99 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":197,
+"name":"Cabanillas, Jonnalyn",
+"transdate":"2023-04-27 12:57:34",
+"epoch":1682571454,
+"room":103,
+"temp":"36.1 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":198,
+"name":"Orot, Melanie, M.",
+"transdate":"2023-04-26 08:26:26",
+"epoch":1682468786,
+"room":201,
+"temp":"36.56 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":199,
+"name":"Gesite, George",
+"transdate":"2023-04-27 13:57:49",
+"epoch":1682575069,
+"room":209,
+"temp":"37.27 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":200,
+"name":"Cadeliu00f1a, Mary Ranive",
+"transdate":"2023-04-26 12:19:48",
+"epoch":1682482788,
+"room":203,
+"temp":"36.22 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":201,
+"name":"Reyes, Fatima",
+"transdate":"2023-04-26 14:14:17",
+"epoch":1682489657,
+"room":204,
+"temp":"36.48 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":202,
+"name":"Ibale, Ronnie",
+"transdate":"2023-04-27 18:10:53",
+"epoch":1682590253,
+"room":205,
+"temp":"36.81 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":203,
+"name":"Tangcawan, Jaquelyn",
+"transdate":"2023-04-26 08:41:27",
+"epoch":1682469687,
+"room":105,
+"temp":"36.88 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":204,
+"name":"Gucor, Danica Jeanne, M.",
+"transdate":"2023-04-27 12:13:29",
+"epoch":1682568809,
+"room":201,
+"temp":"35.34 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":205,
+"name":"Quiu00f1o, Devie Valerie, T.",
+"transdate":"2023-04-27 11:53:05",
+"epoch":1682567585,
+"room":206,
+"temp":"37.09 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":206,
+"name":"Vertulfo, Christian Paul",
+"transdate":"2023-04-26 19:01:15",
+"epoch":1682506875,
+"room":107,
+"temp":"37.27 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":207,
+"name":"Coca, Teresa Mae, H.",
+"transdate":"2023-04-26 14:42:07",
+"epoch":1682491327,
+"room":209,
+"temp":"37.22 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":208,
+"name":"Au00f1asco, Dolph Allyn",
+"transdate":"2023-04-27 09:38:38",
+"epoch":1682559518,
+"room":304,
+"temp":"37.34 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":209,
+"name":"Tabuzo, Ramel, J.",
+"transdate":"2023-04-27 08:37:01",
+"epoch":1682555821,
+"room":310,
+"temp":"36.0 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":210,
+"name":"Tagadiad, Mae Abegail",
+"transdate":"2023-04-27 18:12:04",
+"epoch":1682590324,
+"room":209,
+"temp":"36.94 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":211,
+"name":"Pinar, King Emmanuele, T.",
+"transdate":"2023-04-27 20:43:38",
+"epoch":1682599418,
+"room":306,
+"temp":"36.87 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":212,
+"name":"Opelinia, Prince Lonito, B.",
+"transdate":"2023-04-27 08:32:41",
+"epoch":1682555561,
+"room":201,
+"temp":"35.78 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":213,
+"name":"Cabahug, Rena Mae",
+"transdate":"2023-04-26 13:23:40",
+"epoch":1682486620,
+"room":309,
+"temp":"37.46 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":214,
+"name":"Relampagos, Joseph Caesar, O.",
+"transdate":"2023-04-26 18:33:41",
+"epoch":1682505221,
+"room":109,
+"temp":"37.74 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":215,
+"name":"Gesite, George Jr C.",
+"transdate":"2023-04-26 22:57:22",
+"epoch":1682549841,
+"room":123,
+"temp":"",
+"course":"BSCPE 4A"
+},
+{ 
+"id":216,
+"name":"Lagura, Lloyd",
+"transdate":"2023-04-26 07:47:17",
+"epoch":1682466437,
+"room":108,
+"temp":"35.6 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":217,
+"name":"Rubin, Daniel",
+"transdate":"2023-04-26 08:02:01",
+"epoch":1682467321,
+"room":108,
+"temp":"36.01 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":218,
+"name":"Balais, Mark Horace, B.",
+"transdate":"2023-04-26 08:14:28",
+"epoch":1682468068,
+"room":108,
+"temp":"36.76 C\r",
+"course":"BSCPE 4B"
+},
+{ 
+"id":219,
+"name":"Tadle, Joel",
+"transdate":"2023-04-26 08:09:13",
+"epoch":1682467753,
+"room":108,
+"temp":"36.35 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":220,
+"name":"Ponce, Jairo, B.",
+"transdate":"2023-04-26 08:38:16",
+"epoch":1682469496,
+"room":108,
+"temp":"35.78 C\r",
+"course":"BSCPE 4B"
+},
+{ 
+"id":221,
+"name":"Rollin, John Mackenly, B.",
+"transdate":"2023-04-26 07:35:18",
+"epoch":1682465718,
+"room":108,
+"temp":"37.46 C\r",
+"course":"BSCPE 4B"
+},
+{ 
+"id":222,
+"name":"Mendez, Kean",
+"transdate":"2023-04-26 07:02:42",
+"epoch":1682463762,
+"room":108,
+"temp":"36.31 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":223,
+"name":"Napallacan, Franz Mark",
+"transdate":"2023-04-26 08:22:13",
+"epoch":1682468533,
+"room":108,
+"temp":"36.82 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":224,
+"name":"Bulabos, Joanah May",
+"transdate":"2023-04-26 07:29:24",
+"epoch":1682465364,
+"room":108,
+"temp":"36.65 C\r",
+"course":"BSCPE 4B"
+},
+{ 
+"id":225,
+"name":"Libardo, Nikko Glenn, F.",
+"transdate":"2023-04-26 07:51:20",
+"epoch":1682466680,
+"room":108,
+"temp":"36.25 C\r",
+"course":"BSCPE 4B"
+},
+{ 
+"id":226,
+"name":"Gohil, Robert Kin T.",
+"transdate":"2023-04-26 08:15:14",
+"epoch":1682468114,
+"room":105,
+"temp":"37.13 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":227,
+"name":"Tangcawan, Jaquelyn",
+"transdate":"2023-04-25 08:02:01",
+"epoch":1689164521,
+"room":105,
+"temp":"36.01 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":228,
+"name":"Anub, Jeremiah Rey",
+"transdate":"2023-04-26 08:14:28",
+"epoch":1682468068,
+"room":105,
+"temp":"36.76 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":229,
+"name":"Labonog, Ellah Mae",
+"transdate":"2023-04-26 08:09:13",
+"epoch":1682467753,
+"room":105,
+"temp":"36.35 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":230,
+"name":"Laguitao, Jessie Ryle",
+"transdate":"2023-04-26 08:38:16",
+"epoch":1682469496,
+"room":105,
+"temp":"35.78 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":231,
+"name":"Catad, Niu00f1o Laurence",
+"transdate":"2023-04-26 07:35:18",
+"epoch":1682465718,
+"room":105,
+"temp":"37.46 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":232,
+"name":"Ricafort, Chester John",
+"transdate":"2023-04-26 07:02:42",
+"epoch":1682463762,
+"room":105,
+"temp":"36.31 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":233,
+"name":"Molina, Fritgil Mae",
+"transdate":"2023-04-26 07:23:22",
+"epoch":1682465002,
+"room":105,
+"temp":"36.99 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":234,
+"name":"Fullante, Jazmin Joy",
+"transdate":"2023-04-26 07:34:46",
+"epoch":1682465686,
+"room":105,
+"temp":"36.03 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":235,
+"name":"Danila, Rogimie",
+"transdate":"2023-04-26 08:53:49",
+"epoch":1682470429,
+"room":105,
+"temp":"36.94 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":236,
+"name":"Bentulan, Vince Pierre",
+"transdate":"2023-04-26 08:13:41",
+"epoch":1682468021,
+"room":105,
+"temp":"35.45 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":237,
+"name":"Bacol, Deannah May",
+"transdate":"2023-04-26 08:08:15",
+"epoch":1682467695,
+"room":105,
+"temp":"36.57 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":238,
+"name":"Jabines, Jay Anne",
+"transdate":"2023-04-26 08:23:14",
+"epoch":1682468594,
+"room":105,
+"temp":"36.51 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":239,
+"name":"Au00f1asco, Dolph Allyn",
+"transdate":"2023-04-26 07:40:10",
+"epoch":1682466010,
+"room":105,
+"temp":"36.88 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":240,
+"name":"Andrade, Jhune Maureen",
+"transdate":"2023-04-26 08:33:16",
+"epoch":1682469196,
+"room":105,
+"temp":"37.09 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":241,
+"name":"Lampios, Claire Ann",
+"transdate":"2023-04-26 08:07:18",
+"epoch":1682467638,
+"room":105,
+"temp":"37.18 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":242,
+"name":"Jotojot, Jelian Kate",
+"transdate":"2023-04-26 07:55:40",
+"epoch":1682466940,
+"room":105,
+"temp":"37.1 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":243,
+"name":"Napallacan, Franz Mark",
+"transdate":"2023-04-26 08:48:10",
+"epoch":1682470090,
+"room":105,
+"temp":"37.4 C\r\n",
+"course":"BSCPE 4A"
+},
+{ 
+"id":244,
+"name":"Mauro, Cielo Mae",
+"transdate":"2023-04-26 07:59:23",
+"epoch":1682467163,
+"room":105,
+"temp":"36.21 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":245,
+"name":"Gesite, George Jr C.",
+"transdate":"2023-04-26 08:52:04",
+"epoch":1682470324,
+"room":105,
+"temp":"36.53 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":246,
+"name":"Tagadiad, Mae Abegail",
+"transdate":"2023-04-26 08:33:55",
+"epoch":1682469235,
+"room":105,
+"temp":"36.42 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":247,
+"name":"Tadle, Joel",
+"transdate":"2023-04-26 08:25:42",
+"epoch":1682468742,
+"room":105,
+"temp":"35.42 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":248,
+"name":"Soria, Daniel",
+"transdate":"2023-04-26 07:14:04",
+"epoch":1682464444,
+"room":105,
+"temp":"36.58 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":249,
+"name":"Caseu00f1as, Jovihanni",
+"transdate":"2023-04-26 07:04:57",
+"epoch":1682463897,
+"room":105,
+"temp":"35.82 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":250,
+"name":"Lofranco, Ruel Riego",
+"transdate":"2023-04-26 08:15:50",
+"epoch":1682468150,
+"room":105,
+"temp":"36.83 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":251,
+"name":"Enad, Lemuel Jay",
+"transdate":"2023-04-26 08:27:26",
+"epoch":1682468846,
+"room":105,
+"temp":"36.87 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":252,
+"name":"Abellana, Lord Kelvin",
+"transdate":"2023-04-26 08:51:55",
+"epoch":1682470315,
+"room":105,
+"temp":"36.23 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":253,
+"name":"Carias, Alyzza Mae",
+"transdate":"2023-04-26 08:11:17",
+"epoch":1682467877,
+"room":105,
+"temp":"36.15 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":254,
+"name":"Mendez, Kean",
+"transdate":"2023-04-26 07:05:59",
+"epoch":1682463959,
+"room":105,
+"temp":"36.86 C\r",
+"course":"BSCPE 4A"
+},
+{ 
+"id":255,
+"name":"Tan, Marl Kenneth",
+"transdate":"2023-04-26 07:55:25",
+"epoch":1682466925,
+"room":105,
+"temp":"35.89 C\r",
+"course":"BSCPE 4A"
+}]

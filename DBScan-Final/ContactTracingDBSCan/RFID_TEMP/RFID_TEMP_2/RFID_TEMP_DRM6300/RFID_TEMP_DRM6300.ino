@@ -1,4 +1,4 @@
-#include <SPI.h>  // include the SPI library
+
 #include <SoftwareSerial.h>
 #include <OS_SerialRFID.h>
 #include <Adafruit_MLX90614.h>  // include the Adafruit_MLX90614 library
