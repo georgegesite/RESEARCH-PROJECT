@@ -1,7 +1,8 @@
 # CTDBSCAN6.py version 0.6
 # working on dbscan within the 30 minutes before and after - WORKED
 # user details dimakita full address - WORKED
-# contact tracing feature in the making
+# contact tracing feature in the making -WORKED
+# contact tracing feature 2 days- working
 
 from datetime import datetime, timedelta
 import time
@@ -378,6 +379,7 @@ def clear_contact_traced():
     date_label.destroy()
     date_entry.destroy()
     start_program()
+    contact_tracing_list_final.clear()
 
 def trace_checker():
     global unique_id
@@ -389,9 +391,19 @@ def trace_checker():
         messagebox.showwarning('Error', 'Please Fill in Name and Date!')
     else:
         sql_connection()
+        # SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, DATE(transdate)
+        # FROM contact_tracer.logs
+        # WHERE `name` = "Gesite, George Jr C." AND DATE(transdate) BETWEEN DATE_SUB("2023-04-26", INTERVAL 1 DAY) AND "2023-04-26";
 
-        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
+        # INSERT INTO contact_tracer.logs (id, name, transdate, epoch, room, temp, course)
+        # VALUES 
+        # (1, 'John Doe', '2023-04-17', 1647633600, '101', 25.6, "BSCPE4A");
         dateEntry = date_entry.get()
+
+        # cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
+        # cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
+        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, DATE(transdate) from `logs` where `name`='"+name_entry.get()+"' AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
+
         result = cursor.fetchall()
 
         if len(result) >= 1:
@@ -400,10 +412,9 @@ def trace_checker():
                 time_id = row[1] #formated date YY MM DD HH MM
                 checkdate = row[2] #newdate YY MM DD
                 tracedate = row[3] #transdate YY MM DD 
-                if checkdate == dateEntry:
-                    unique_id =temp_id
-                    tracename = name_entry.get()
-                    trace()
+                unique_id =temp_id
+                tracename = name_entry.get()
+                trace()
             contacttracing_output()
 
         elif len(result) == 0:
@@ -550,6 +561,7 @@ def trace():
 
 def contacttracing_output():
     final_names = contact_tracing_list_final
+    print(len(contact_tracing_list_final))
     global myframe
     global traced_frame
     global my_button
