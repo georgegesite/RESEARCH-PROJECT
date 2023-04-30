@@ -1,9 +1,10 @@
-# CTDBSCAN6.py version 0.6
+# CTDBSCAN8.py version 0.8
 # working on dbscan within the 30 minutes before and after - WORKED
 # user details dimakita full address - WORKED
 # contact tracing feature in the making -WORKED
 # contact tracing feature 2 days- worKED
-#change color of the button when pressed - WORKING only scan RFID and scan TEMP
+#change color of the button when pressed - WORKED
+# removed prompt when saving logs and register users
 
 from datetime import datetime, timedelta
 import time
@@ -128,7 +129,7 @@ def start_program():
     monitoring_button.place(x=750, y=700)
 
     scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),
-                                    command=show_details)
+                                    command=scan_id)
     scan_button.pack()
     scan_button.bind("<Button-1>", lambda event: change_color_green_rfid())
     scan_button.place(x=2, y=700)
@@ -791,18 +792,42 @@ def save_details():
             val = (name_text, currentDateAndTime, epoch, detail_room_entry.get(),temp_text,course_text) #added course
             result = cursor.execute(sql, val) 
             connection.commit()
-            tkinter.messagebox.showinfo(title="Success!", message="Image and data successfully inserted!")
+            print("Image and data successfully inserted!")
             temp = ""
             rfid_code = ""
 
         except mysql.connector.Error as error:
-            tkinter.messagebox.showerror(title="Success!", message="Image and data successfully inserted!")
+            print("Error: ", error)
 
         finally:
             if connection.is_connected():
                 cursor.close()
                 connection.close()
                 clear_show_details()
+
+
+# def save_details():
+#     if detail_room_entry.get() == "" or temp_text == "\N{DEGREE SIGN}C":
+#         messagebox.showwarning('Error', 'Error: Please Fill up Data!')
+#     else:
+#         try:
+#             sql_connection()
+#             sql = "INSERT INTO logs (name, transdate, epoch, room,temp,course) VALUES (%s, %s, %s, %s, %s, %s)" #added course
+#             val = (name_text, currentDateAndTime, epoch, detail_room_entry.get(),temp_text,course_text) #added course
+#             result = cursor.execute(sql, val) 
+#             connection.commit()
+#             tkinter.messagebox.showinfo(title="Success!", message="Image and data successfully inserted!")
+#             temp = ""
+#             rfid_code = ""
+
+#         except mysql.connector.Error as error:
+#             tkinter.messagebox.showerror(title="Success!", message="Image and data successfully inserted!")
+
+#         finally:
+#             if connection.is_connected():
+#                 cursor.close()
+#                 connection.close()
+#                 clear_show_details()
 
 def convert_data(data, filename):
     # Convert binary data to proper format and write it on Hard Disk
