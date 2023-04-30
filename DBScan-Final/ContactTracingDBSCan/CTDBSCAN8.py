@@ -3,7 +3,7 @@
 # user details dimakita full address - WORKED
 # contact tracing feature in the making -WORKED
 # contact tracing feature 2 days- worKED
-#change color of the button when pressed - WORKED
+# change color of the button when pressed - WORKED
 # removed prompt when saving logs and register users
 
 from datetime import datetime, timedelta

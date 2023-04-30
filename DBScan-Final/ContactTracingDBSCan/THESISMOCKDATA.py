@@ -14,7 +14,7 @@ names = [
 "Bentulan, Vince Pierre",
 "Catad, Nino Laurence",
 "Enad, Lemuel Jay",
-"Gesite, George Jr C.",
+"Gesite, George",
 "Gohil, Robert Kin T.",
 "Laguitao, Jessie Ryle",
 "Laureano, Bryan",
@@ -42,17 +42,16 @@ names = [
 "Tagadiad, Mae Abegail",
 "Tangcawan, Jaquelyn",
 ]
-random.shuffle(names)
-# Set up possible room numbers
 
+for i in range(666):
+    random.shuffle(names)
 
-# Generate data
 data = []
 for i in range(30):
     # Set up ID
-    id_num = 333 + i
+    id_num = 331 + i
 
-    # Set up name
+
     if len(names) > 0:
         if i < 66:
             name = random.choice(names)
@@ -67,28 +66,27 @@ for i in range(30):
     # Set up transaction date
     date = datetime(2023, 4, 28)
     hour = 5
-    minute = random.randint(15, 45)
+    minute = random.randint(0, 45)
     second = random.randint(0, 59)
     transdate = date.replace(hour=hour, minute=minute, second=second).strftime("%Y-%m-%d %H:%M:%S")
 
-    # Set up epoch
+
     epoch = int(time.mktime(time.strptime(transdate, "%Y-%m-%d %H:%M:%S")))
 
     # Set up room
     room = 205
 
-    # Set up temperature
     temp = round(random.normalvariate(36.5, 0.5), 2)
     course = "BSCPE 4A"
 
-    # Append to data list
+
     data.append({
         "id": id_num,
         "name": name,
         "transdate": transdate,
         "epoch": epoch,
         "room": room,
-        "temp": f"{temp} C\r\n",
+        "temp": f"{temp} C",
         "course": course
     })
 
