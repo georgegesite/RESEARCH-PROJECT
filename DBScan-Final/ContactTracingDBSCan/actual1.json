@@ -1,0 +1,20 @@
+[
+  {
+    "id": 493,
+    "name": "Gesite, George",
+    "transdate": "2023-05-04 08:42:28",
+    "epoch": 1683160948,
+    "room": 9,
+    "temp": "37.0 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 494,
+    "name": "Gohil, Robert Kin",
+    "transdate": "2023-05-04 08:39:36",
+    "epoch": 1683160776,
+    "room": 9,
+    "temp": "36.77 C",
+    "course": "BSCPE 4A"
+  }
+]

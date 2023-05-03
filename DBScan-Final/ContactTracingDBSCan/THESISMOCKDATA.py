@@ -8,48 +8,20 @@ random.seed(42)
 
 # Set up possible names
 names = [
-"Abellana, Lord Kelvin",
-"Anub, Jeremiah Rey",
-"Anasco, Dolph Allyn",
-"Bentulan, Vince Pierre",
-"Catad, Nino Laurence",
-"Enad, Lemuel Jay",
 "Gesite, George",
-"Gohil, Robert Kin T.",
-"Laguitao, Jessie Ryle",
-"Laureano, Bryan",
-"Lofranco, Ruel Riego",
-"Mendez, Kean",
-"Napallacan, Franz Mark",
-"Rebarbas, Rod Kristian",
-"Respecia, Charles Rene",
-"Soria, Daniel",
-"Tadle, Joel",
-"Tan, Marl Kenneth",
-"Bacol, Deannah May",
-"Cabanillas, Jonnalyn",
-"Cadelina, Mary Ranive",
-"Carias, Alyzza Mae",
-"Casenas, Jovihanni",
-"Danila, Rogimie",
-"Fullante, Jazmin Joy",
-"Jabines, Jay Anne",
-"Jotojot, Jelian Kate",
-"Labonog, Ellah Mae",
-"Lampios, Claire Ann",
-"Mauro, Cielo Mae",
-"Molina, Fritgil Mae",
-"Tagadiad, Mae Abegail",
-"Tangcawan, Jaquelyn",
+"Gohil, Robert Kin",
+# "Jotojot, Jelian Kate",
+# "Lampios, Claire Ann",
+
 ]
 
 for i in range(666):
     random.shuffle(names)
 
 data = []
-for i in range(30):
+for i in range(2):
     # Set up ID
-    id_num = 331 + i
+    id_num = 493 + i
 
 
     if len(names) > 0:
@@ -64,9 +36,9 @@ for i in range(30):
         name = "Unknown"
 
     # Set up transaction date
-    date = datetime(2023, 4, 28)
-    hour = 5
-    minute = random.randint(0, 45)
+    date = datetime(2023, 5, 4)
+    hour = 8
+    minute = random.randint(30, 45)
     second = random.randint(0, 59)
     transdate = date.replace(hour=hour, minute=minute, second=second).strftime("%Y-%m-%d %H:%M:%S")
 
@@ -74,7 +46,7 @@ for i in range(30):
     epoch = int(time.mktime(time.strptime(transdate, "%Y-%m-%d %H:%M:%S")))
 
     # Set up room
-    room = 205
+    room = 9
 
     temp = round(random.normalvariate(36.5, 0.5), 2)
     course = "BSCPE 4A"
@@ -91,5 +63,5 @@ for i in range(30):
     })
 
 # Write data to file
-with open("sched12.json", "w") as f:
+with open("actual1.json", "w") as f:
     json.dump(data, f, indent=2)

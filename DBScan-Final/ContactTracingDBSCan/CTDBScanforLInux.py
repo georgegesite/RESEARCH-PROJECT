@@ -68,7 +68,7 @@ def sql_connection():
         connection = mysql.connector.connect(host='localhost',
                                              database='contact_tracer',
                                              user='root',
-                                             password='password',
+                                             password='123456',
                                              port='3306')
         if connection.is_connected():
             db_Info = connection.get_server_info()
@@ -130,7 +130,9 @@ def start_program():
 
     scan_button = Button(root, text="Scan RFID", padx=15, pady=15, font=('Times', 35),
                                     command=scan_id)
-    scan_button.place(x=1, y=729)
+    scan_button.pack()
+    scan_button.bind("<Button-1>", lambda event: change_color_green_rfid())
+    scan_button.place(x=2, y=700)
 
 def entrance_monitoring():
     global name_label

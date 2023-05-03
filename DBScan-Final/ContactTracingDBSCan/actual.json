@@ -1,0 +1,254 @@
+[
+  {
+    "id": 471,
+    "name": "Optina, Charles",
+    "transdate": "2023-05-02 11:08:57",
+    "epoch": 1682996937,
+    "room": 205,
+    "temp": "37.15 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 472,
+    "name": "Napallacan, Franz Mark",
+    "transdate": "2023-05-02 11:24:07",
+    "epoch": 1682997847,
+    "room": 205,
+    "temp": "36.31 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 473,
+    "name": "Gesite, George",
+    "transdate": "2023-05-02 10:05:07",
+    "epoch": 1682993107,
+    "room": 9,
+    "temp": "36.48 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 474,
+    "name": "Gohil, Robert Kin",
+    "transdate": "2023-05-02 10:20:37",
+    "epoch": 1682994037,
+    "room": 9,
+    "temp": "36.44 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 475,
+    "name": "Napallacan, Franz Mark",
+    "transdate": "2023-05-02 16:18:17",
+    "epoch": 1683015497,
+    "room": 1,
+    "temp": "36.09 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 476,
+    "name": "Optina, Charles",
+    "transdate": "2023-05-02 16:20:51",
+    "epoch": 1683015651,
+    "room": 1,
+    "temp": "36.08 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 477,
+    "name": "Polot, Dianne Marie",
+    "transdate": "2023-05-02 16:25:11",
+    "epoch": 1683015911,
+    "room": 1,
+    "temp": "35.9 C",
+    "course": "BSCPE 2A"
+  },
+  {
+    "id": 478,
+    "name": "Caberte, Noah",
+    "transdate": "2023-05-02 16:26:10",
+    "epoch": 1683015970,
+    "room": 205,
+    "temp": "36.37 C",
+    "course": "BSCPE 2A"
+  },
+  {
+    "id": 479,
+    "name": "Andoy, Kishea Kate",
+    "transdate": "2023-05-02 17:50:18",
+    "epoch": 1683021018,
+    "room": 2,
+    "temp": "36.83 C",
+    "course": "BSCPE 2B"
+  },
+  {
+    "id": 480,
+    "name": "Villacica, Francis Ian",
+    "transdate": "2023-05-02 18:10:33",
+    "epoch": 1683022233,
+    "room": 2,
+    "temp": "36.41 C",
+    "course": "BSCPE 2B"
+  },
+  {
+    "id": 481,
+    "name": "Lampios, Claire Ann",
+    "transdate": "2023-05-03 08:29:45",
+    "epoch": 1683073785,
+    "room": 9,
+    "temp": "36.25 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 482,
+    "name": "Jotojot, Jelian Kate",
+    "transdate": "2023-05-03 08:35:15",
+    "epoch": 1683074115,
+    "room": 9,
+    "temp": "36.49 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 483,
+    "name": "Jotojot, Jelian Kate",
+    "transdate": "2023-05-03 12:38:18",
+    "epoch": 1683088698,
+    "room": 9,
+    "temp": "35.5 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 484,
+    "name": "Lampios, Claire Ann",
+    "transdate": "2023-05-03 12:42:52",
+    "epoch": 1683088972,
+    "room": 9,
+    "temp": "35.91 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 485,
+    "name": "Gohil, Robert Kin",
+    "transdate": "2023-05-03 12:39:02",
+    "epoch": 1683088742,
+    "room": 9,
+    "temp": "35.86 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 486,
+    "name": "Gesite, George",
+    "transdate": "2023-05-03 12:44:41",
+    "epoch": 1683089081,
+    "room": 9,
+    "temp": "36.1 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 487,
+    "name": "Villacica, Francis Ian",
+    "transdate": "2023-05-03 13:05:34",
+    "epoch": 1683090334,
+    "room": 205,
+    "temp": "36.57 C",
+    "course": "BSCPE 2B"
+  },
+  {
+    "id": 488,
+    "name": "Andoy, Kishea Kate",
+    "transdate": "2023-05-03 13:06:12",
+    "epoch": 1683090372,
+    "room": 205,
+    "temp": "36.28 C",
+    "course": "BSCPE 2B"
+  },
+  {
+    "id": 489,
+    "name": "Caberte, Noah",
+    "transdate": "2023-05-03 14:09:23",
+    "epoch": 1683094163,
+    "room": 205,
+    "temp": "36.5 C",
+    "course": "BSCPE 2A"
+  },
+  {
+    "id": 490,
+    "name": "Polot, Dianne Marie",
+    "transdate": "2023-05-03 14:16:11",
+    "epoch": 1683094571,
+    "room": 205,
+    "temp": "35.72 C",
+    "course": "BSCPE 2A"
+  },
+  {
+    "id": 491,
+    "name": "Napallacan, Frienz Marinino",
+    "transdate": "2023-05-03 17:16:23",
+    "epoch": 1683105383,
+    "room": 3,
+    "temp": "36.62 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 492,
+    "name": "Optina, Charles",
+    "transdate": "2023-05-03 17:20:57",
+    "epoch": 1683105657,
+    "room": 3,
+    "temp": "36.44 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 493,
+    "name": "Napallacan, Frienz Marinino",
+    "transdate": "2023-05-04 08:10:26",
+    "epoch": 1683159026,
+    "room": 206,
+    "temp": "36.62 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 494,
+    "name": "Optina, Charles",
+    "transdate": "2023-05-04 08:13:36",
+    "epoch": 1683159216,
+    "room": 206,
+    "temp": "36.44 C",
+    "course": "BSCPE 1B"
+  },
+  {
+    "id": 495,
+    "name": "Gesite, George",
+    "transdate": "2023-05-04 08:42:28",
+    "epoch": 1683160948,
+    "room": 9,
+    "temp": "37.0 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 496,
+    "name": "Gohil, Robert Kin",
+    "transdate": "2023-05-04 08:39:36",
+    "epoch": 1683160776,
+    "room": 9,
+    "temp": "36.77 C",
+    "course": "BSCPE 4A"
+  },
+  {
+    "id": 497,
+    "name": "Villacica, Francis Ian",
+    "transdate": "2023-05-04 11:17:36",
+    "epoch": 1683170256,
+    "room": 6,
+    "temp": "36.84 C",
+    "course": "BSCPE 2B"
+  },
+  {
+    "id": 498,
+    "name": "Andoy, Kishea Kate",
+    "transdate": "2023-05-04 11:39:41",
+    "epoch": 1683171581,
+    "room": 6,
+    "temp": "36.44 C",
+    "course": "BSCPE 2B"
+  }
+]

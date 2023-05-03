@@ -1,4 +1,3 @@
-
 #include <SoftwareSerial.h>
 #include <OS_SerialRFID.h>
 #include <Adafruit_MLX90614.h>  // include the Adafruit_MLX90614 library
@@ -23,7 +22,6 @@ void setup()
     while (1);  // infinite loop if sensor not connected
   };
 
-  SPI.begin();      // initialize SPI bus
 
 }
 
@@ -43,7 +41,7 @@ void loop()
       }//end of switch()
 
   }
-  delay(1000);  // delay for 1 second before checking for new data on serial port
+  // delay(1000);  // delay for 1 second before checking for new data on serial port
 } 
 void rfid()
 {
@@ -55,18 +53,18 @@ void rfid()
 	Serial.println(myRFID.readIDString());
   content = myRFID.readIDString();
   	}
-  delay(1000);  
+  // delay(1000);  
 
   
 }
 void temp(){
-  delay(1000); // Wait for 1 second before proceeding
+  // delay(1000); // Wait for 1 second before proceeding
 
   float temperature = mlx.readObjectTempC();
   Serial.print(temperature);
   Serial.println(" C");
   
-  if (temperature > 37.5) {
+  if (temperature > 38.0) {
     digitalWrite(3, HIGH); // Turn on red LED
     tone(2, 1000, 5000);   // Sound buzzer for 5 seconds
     delay(5000);            // Wait 5 seconds

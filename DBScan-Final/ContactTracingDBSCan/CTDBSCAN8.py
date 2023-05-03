@@ -129,7 +129,7 @@ def start_program():
     monitoring_button.place(x=750, y=700)
 
     scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),
-                                    command=register)
+                                    command=scan_id)
     scan_button.pack()
     scan_button.bind("<Button-1>", lambda event: change_color_green_rfid())
     scan_button.place(x=2, y=700)
@@ -404,8 +404,8 @@ def trace_checker():
         # (1, 'John Doe', '2023-04-17', 1647633600, '101', 25.6, "BSCPE4A");
         dateEntry = date_entry.get()
 
-        # cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
-        # cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
+        # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
+        # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
         cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, DATE(transdate) from `logs` where `name`='"+name_entry.get()+"' AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
 
         result = cursor.fetchall()
@@ -528,6 +528,7 @@ def trace():
                     pass
                 else:
                     input_name_clusters.append(df['cluster'][i])
+
         infected_id = []
         for cluster in input_name_clusters:
             if cluster != -1:
