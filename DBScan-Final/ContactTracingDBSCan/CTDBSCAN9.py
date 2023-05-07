@@ -1,13 +1,16 @@
-#WORKING GUI 1440 x 900
-#WORKING SQL C:\Users\GEORGIE\Dropbox\4th year 2nd sem\CPE 421 CpE Practice and Design 2\Workingupdate0420.sql
-#WORKING on adding contact number
-#working on more info on contact tracing
-#adding course to entrance monitoring and contact tracing
-from datetime import datetime
+# automate scanning of rfid and temp (no more user press) - Worked
+# automatically enter room number based on class schedule - Worked
+# automatically save - WORKED
+
+#lahi na rfid para mo gawas ang entrance monitoring and contact tracing
+#export contact tracing via email
+
+from datetime import datetime, timedelta
 import time
 import tkinter.messagebox
 from tkinter import *
 from tkinter import ttk
+import tkinter as tk
 from tkinter import filedialog
 from tkinter.filedialog import askopenfile
 from PIL import ImageTk, Image
@@ -20,18 +23,19 @@ from mysql.connector import Error
 import calendar
 import serial
 import schedule
+from dateutil.relativedelta import relativedelta
 
 root = Tk()
 root.title("Contact Tracing")
 root.resizable(False, False)
 root.geometry("1440x800") #edit window
 
-global is_header
+global is_header  
 global is_home
 global rfid_code
 global temp
 global arport
-arport = "COM5"
+arport = "COM9"
 temp = ""
 rfid_code = ""
 is_home = False
@@ -53,7 +57,6 @@ logo_image = Label(image=logo_label)
 
 # text labels
 myLabel = Label(root, text='BISU\nContact Tracing', font=('Times', 35))  # for text
-
 
 # grouplabel = Label(root, text='Group 8', font = ('Times',16)) #for text
 
@@ -89,6 +92,7 @@ def header():
     separator = ttk.Separator(root, orient='horizontal')
     separator.place(relx=0, rely=0.22, relwidth=1, relheight=1)
 
+
 def start_program():
     global rfid
     global rfid_code
@@ -103,6 +107,7 @@ def start_program():
     global is_header
     global temp
     temp = ""
+
     if not is_header:
         header()
         is_header = True
@@ -123,10 +128,12 @@ def start_program():
     monitoring_button = Button(root, text="Entrance Monitoring", padx=10, pady=10, font=('Times', 30),
                                     command=clear_start_entrance_monitoring)
     monitoring_button.place(x=750, y=700)
+    root.after(500, scan_id)
+    # scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),command=scan_id)
+    # scan_button.place(x=2, y=700)
+    # scan_button.pack()
+    # scan_button.bind("<Button-1>", lambda event: change_color_green_rfid())
 
-    scan_button = Button(root, text="Scan RFID", padx=10, pady=10, font=('Times', 30),
-                                    command=scan_id)
-    scan_button.place(x=2, y=700)
 
 def entrance_monitoring():
     global name_label
@@ -239,33 +246,21 @@ def scan_id():
     global rfid_code
     try:
         arduino = serial.Serial(arport, timeout=5)
-        print("Connected")
+        print("Connected RFID")
     except:
         print("Please Check Port")
 
     arduino.baudrate = 9600
     arduino.port = arport
-    i = 0
-    while i < 3:
-        counter = 0
-        while True:
-            sent = arduino.write(b'B')
-            packet = arduino.readline()
-            rfid_code = packet.decode('utf-8')
-            if len(rfid_code) > 3:
-                break
-            if counter == 2:
-                break
-            counter += 1
+    rfid_obtained = False
 
+    while not rfid_obtained:
+        sent = arduino.write(b'B')
+        packet = arduino.readline()
+        rfid_code = packet.decode('utf-8')
+        print("SCANNING RFID")
         if len(rfid_code) > 3:
-            break
-
-        if counter == 2:
-            break
-        i+=1
-        if len(rfid_code) > 3:
-            break
+            rfid_obtained = True
 
     if (rfid_code != None and len(rfid_code) > 3):
         print(rfid_code)
@@ -285,11 +280,12 @@ def clear_front_page():
     logo_image.destroy()
     my_img_label.destroy()
     start_program()
+    
 
 def clear_start_contact_tracing():
     is_home = False
     start_label.destroy()
-    scan_button.destroy()
+    # scan_button.destroy()
     rfid_image_label.destroy()
     monitoring_button.destroy()
     contact_tracing_Button.destroy()
@@ -313,7 +309,7 @@ def clear_entrance_monitoring():
 
 def clear_start_entrance_monitoring():
     start_label.destroy()
-    scan_button.destroy()
+    # scan_button.destroy()
     rfid_image_label.destroy()
     monitoring_button.destroy()
     contact_tracing_Button.destroy()
@@ -326,7 +322,7 @@ def clear_start_register():
     rfid_image_label.destroy()
     monitoring_button.destroy()
     contact_tracing_Button.destroy()
-    scan_button.destroy()
+    # scan_button.destroy()
     register()
     # show_details()
 
@@ -337,8 +333,10 @@ def clear_start_show_details():
     rfid_image_label.destroy()
     monitoring_button.destroy()
     contact_tracing_Button.destroy()
-    scan_button.destroy()
+    # scan_button.destroy()
     show_details()
+    root.after(500, scan_temp)
+
 
 def clear_contact_tracing():
     global is_home
@@ -377,36 +375,43 @@ def clear_contact_traced():
     date_label.destroy()
     date_entry.destroy()
     start_program()
+    contact_tracing_list_final.clear()
 
 def trace_checker():
     global unique_id
     global tracename
     global tracedate
+    global time_id
     clean = False
     if name_entry.get() == "" or date_entry.get() == "":
         messagebox.showwarning('Error', 'Please Fill in Name and Date!')
     else:
         sql_connection()
+        # SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, DATE(transdate)
+        # FROM contact_tracer.logs
+        # WHERE `name` = "Gesite, George Jr C." AND DATE(transdate) BETWEEN DATE_SUB("2023-04-26", INTERVAL 1 DAY) AND "2023-04-26";
 
-        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"'")
+        # INSERT INTO contact_tracer.logs (id, name, transdate, epoch, room, temp, course)
+        # VALUES 
+        # (1, 'John Doe', '2023-04-17', 1647633600, '101', 25.6, "BSCPE4A");
+        dateEntry = date_entry.get()
+
+        # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
+        # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
+        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, DATE(transdate) from `logs` where `name`='"+name_entry.get()+"' AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 2 DAY) AND '"+dateEntry+"'")
 
         result = cursor.fetchall()
 
         if len(result) >= 1:
             for row in result:
-                temp_id = row[0]
-                time = row[1]
-                if time == date_entry.get():
-                    unique_id=temp_id
-                    tracename = name_entry.get()
-                    tracedate = row[2]
-                    clean = True
-
-            if clean:
+                temp_id = row[0] #id    
+                time_id = row[1] #formated date YY MM DD HH MM
+                checkdate = row[2] #newdate YY MM DD
+                tracedate = row[3] #transdate YY MM DD 
+                unique_id =temp_id
+                tracename = name_entry.get()
                 trace()
-            else:
-                messagebox.showwarning('Error', 'Date not affiliated with name!! Please Recheck your inputs')
-
+            contacttracing_output()
 
         elif len(result) == 0:
             messagebox.showwarning('Error', 'No Name and Date Found!!')
@@ -458,19 +463,17 @@ def contact_tracing():
 
     Label(myframe, text="No One").pack()
 
+contact_tracing_list_final =[] #final list of contact tracing
+
 def trace():
+  
     trace_button.destroy()
-    global myframe
-    global traced_frame
-    global my_button
-    global traced_frame_canvas
-    global back_button2
-    for widgets in traced_frame1.winfo_children():
-        widgets.destroy()
+    global final_names
+
 
     sql_connection()
 
-    cursor.execute("SELECT id, NAME, epoch, room, temp,course, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS transdate, DATE(transDate) FROM LOGS")
+    cursor.execute("SELECT id, NAME, epoch, room,course, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS transdate, DATE(transDate),temp FROM LOGS")
     # cursor.execute("SELECT id,name,epoch,room,DATE(transdate) FROM logs")
 
     result = cursor.fetchall()
@@ -479,22 +482,22 @@ def trace():
     all_name = []#name
     all_date_int = [] #epoch
     all_time_int = [] #room
-    all_temp_int = [] #temp
     all_course =[]
     all_date = [] #date
     all_date_only =[]
+    all_temp_int = [] #temp
 
-    for id, name, date_int, time_int,temp_int,course, transdate, transDate in result:
+    for id, name, date_int, time_int,course, transdate, transDate,temp_int in result:
         all_id.append(id)
         all_name.append(name)
         all_date_int.append(date_int)
         all_time_int.append(time_int)
-        all_temp_int.append(temp_int)
         all_course.append(course)
         all_date.append(transdate)
         all_date_only.append(transDate)
+        all_temp_int.append(temp_int)
 
-    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name,'temp': all_temp_int ,'course': all_course, 'trans': all_date, 'transD':all_date_only} 
+    dic = {'id': all_id, 'datetime': all_date_int, 'room': all_time_int, 'name': all_name,'course': all_course, 'trans': all_date, 'transD':all_date_only,'temp': all_temp_int } 
     df = pd.DataFrame(dic)
     connection.close()
     df.to_csv('exported.csv')
@@ -504,8 +507,10 @@ def trace():
 
     def get_infected_names(unique_id):
         unique_id = int(unique_id)
-        name_room = df[df['id'] == int(unique_id)]['room'].item()
-        epsilon = 1 #to be changed optimal 0.38 to 0.4
+        # print(unique_id)
+        name_room = df[df['id'] == int(unique_id)]['room'].item() #or name_room = df[df['id'] == int(unique_id)]['room'].iloc[0]
+        # print(name_room)
+        epsilon = 0.5 #to be changed optimal 0.38 to 0.4 0.38000 to 1.00000
         model = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(df[['room', 'datetime']])
         df['cluster'] = model.labels_.tolist()
         input_name_clusters = []
@@ -515,6 +520,7 @@ def trace():
                     pass
                 else:
                     input_name_clusters.append(df['cluster'][i])
+
         infected_id = []
         for cluster in input_name_clusters:
             if cluster != -1:
@@ -527,23 +533,39 @@ def trace():
                         pass
         final_infected_names = []
         for i in range(len(infected_id)):
-            if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #"dili na sya mo check if same day"
+            if (df[df['id'] == int(infected_id[i])]['transD'].item()) == tracedate.strftime("%Y-%m-%d"): #mo check if same day
                 if (df[df['id'] == int(infected_id[i])]['name'].item()) != tracename:
                     if (df[df['id'] == int(infected_id[i])]['room'].item()) == name_room:
                         if not df[df['id'] == infected_id[i]]['name'].item() in final_infected_names:
                             name = df[df['id'] == infected_id[i]]['name'].item()
                             trans = df[df['id'] == infected_id[i]]['trans'].item()
-                            room = df[df['id'] == infected_id[i]]['room'].item()
-                            temp = df[df['id'] == infected_id[i]]['temp'].item()
-                            course = df[df['id'] == infected_id[i]]['course'].item()
-                            final_infected_names.append((name, trans, room, temp,course))
+                            trans_dt = datetime.strptime(trans, "%Y-%m-%d %H:%M")
+                            time_id2 = datetime.strptime(time_id, "%Y-%m-%d %H:%M")
+                            time_diff = abs(trans_dt - time_id2)
+                            if time_diff <= timedelta(minutes=30):
+                                room = df[df['id'] == infected_id[i]]['room'].item()
+                                temp = df[df['id'] == infected_id[i]]['temp'].item()
+                                course = df[df['id'] == infected_id[i]]['course'].item()
+                                final_infected_names.append((name, trans, room, temp,course))
+                                contact_tracing_list_final.append((name, trans, room, temp,course))
     
         return final_infected_names
 
 
     i_name = get_infected_names(unique_id)
 
-    # traced_frame = LabelFrame(root, text="                                           Name            Date/Time            Room        Temp", font=('Times', 20))
+
+
+def contacttracing_output():
+    final_names = contact_tracing_list_final
+    print(len(contact_tracing_list_final))
+    global myframe
+    global traced_frame
+    global my_button
+    global traced_frame_canvas
+    global back_button2
+    for widgets in traced_frame1.winfo_children():
+        widgets.destroy()
     traced_frame = LabelFrame(root, text="People Subject to Contact Tracing", font=('Times', 20))
     traced_frame_canvas = Canvas(traced_frame)
     traced_frame_canvas.pack(side=LEFT, fill="both", expand="yes")
@@ -563,18 +585,19 @@ def trace():
     back_button2 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_contact_traced)
     back_button2.place(x=1305, y=700)
 
-    if len(i_name) > 0:
-        for i in i_name:
-            my_button = Button(myframe, text=f"Name: {i[0]}     DateTime: {i[1]}     Temp: {i[3]}      Room: {i[2]}      Course: {i[4]}", width=75, font=('Times', 20), command=lambda button_text=i[0]: click_name(button_text)).pack()
+    if len(final_names) > 0:
+        for i in final_names:
+            my_button = Button(myframe, text=f"Name: {i[0]}     DateTime: {i[1]}     Temp: {i[3]}      \nRoom: {i[2]}      Course: {i[4]}", width=75, font=('Times', 20), command=lambda button_text=i[0]: click_name(button_text)).pack()
 
     else:
         Label(myframe, text="No One", font=('Times', 15)).pack()
+
 
 def click_name(text):
     new = Toplevel(root)
     new.title("Description")
     new.resizable(False, False)
-    new.geometry("800x400")
+    new.geometry("1200x400")
     # Create a Label in New window
     Label(new, text="User Details", font=('Helvetica 17 bold')).pack(pady=30)
 
@@ -748,32 +771,46 @@ def clear_show_details():
     detail_temp.destroy()
     detail_room_label.destroy()
     detail_room_entry.destroy()
-    save_button.destroy()
-    scan_temp_button.destroy()
+    # save_button.destroy()
+    # scan_temp_button.destroy()
     start_program()
 
+from tkinter import messagebox
+
 def save_details():
-    if detail_room_entry.get() == "" or temp_text == "\N{DEGREE SIGN}C":
+    if room_entry == "" or temp_text == "\N{DEGREE SIGN}C":
         messagebox.showwarning('Error', 'Error: Please Fill up Data!')
     else:
         try:
             sql_connection()
-            sql = "INSERT INTO logs (name, transdate, epoch, room,temp,course) VALUES (%s, %s, %s, %s, %s, %s)" #added course
-            val = (name_text, currentDateAndTime, epoch, detail_room_entry.get(),temp_text,course_text) #added course
-            result = cursor.execute(sql, val) 
+            sql = "INSERT INTO logs (name, transdate, epoch, room,temp,course) VALUES (%s, %s, %s, %s, %s, %s)"
+            val = (name_text, currentDateAndTime, epoch, room_entry, temp_text, course_text)
+            result = cursor.execute(sql, val)
             connection.commit()
-            tkinter.messagebox.showinfo(title="Success!", message="Image and data successfully inserted!")
+            print("Image and data successfully inserted!")
             temp = ""
             rfid_code = ""
+            show_success()
 
         except mysql.connector.Error as error:
-            tkinter.messagebox.showerror(title="Success!", message="Image and data successfully inserted!")
+            print("Error: ", error)
 
         finally:
             if connection.is_connected():
                 cursor.close()
                 connection.close()
                 clear_show_details()
+
+def show_success():
+    success_window = tk.Toplevel()
+    success_window.geometry("200x50")
+    success_window.title("Success")
+    
+    success_label = tk.Label(success_window, text="Data has been saved. Thank you!")
+    success_label.pack(pady=10)
+
+    # Destroy the success window after 3 seconds (3000 milliseconds)
+    success_window.after(1500, success_window.destroy)
 
 def convert_data(data, filename):
     # Convert binary data to proper format and write it on Hard Disk
@@ -805,10 +842,12 @@ def show_details():
     global detail_temp
     global detail_room_label
     global detail_room_entry
-    global save_button
+    # global save_button
     global epoch
     global temp
-    global scan_temp_button
+    global temp_obtained
+    global room_entry
+    # global scan_temp_button
 
     currentDateAndTime = datetime.now()
     t = datetime(currentDateAndTime.year, currentDateAndTime.month, currentDateAndTime.day, currentDateAndTime.hour,
@@ -847,6 +886,7 @@ def show_details():
     image_label.place(x=100+200, y=230)
 
     temp_text = temp#+"\N{DEGREE SIGN}C" for python degress celsius sign
+    room_entry = get_room_number(course_text)
 
     detail_id_label = Label(root, text="RFID: ", font=('Times', 25))
     detail_id_label.place(x=500+40+200, y=180+10+20)
@@ -874,22 +914,14 @@ def show_details():
     detail_temp.place(x=640+40+20+20+200, y=380+10+10+10+10+10+10+20)
     detail_room_label = Label(root, text="Room: ", font=('Times', 25))
     detail_room_label.place(x=500+40+200, y=420+10+10+10+10+10+10+10+20)
-    detail_room_entry = ttk.Entry(root, width=20, font=('Times', 25))
+    detail_room_entry = Label(root, text=room_entry, font=('Times', 25))
     detail_room_entry.place(x=600+40+200, y=425+70+20)
-
-    save_button = Button(root, text="Save", padx=10, pady=10, font=('Times', 30),command=save_details)
-    save_button.place(x=1310, y=700)
-
-    scan_temp_button = Button(root, text="Scan TEMP", padx=10, pady=10, font=('Times', 30),
-                                    command=scan_temp)
-    scan_temp_button.place(x=2, y=700)
-
 
 def scan_temp():
     global temp
     try:
         arduino = serial.Serial(arport, timeout=5)
-        print("Connected")
+        print("Connected TEMP")
     except:
         print("Please Check Port")
 
@@ -916,7 +948,7 @@ def scan_temp():
 
         if len(temp) > 3:
             break
-
+    
     if (temp != None and len(temp) > 3):
         clear_temp_scan()
 
@@ -936,9 +968,46 @@ def clear_temp_scan():
     detail_temp.destroy()
     detail_room_label.destroy()
     detail_room_entry.destroy()
-    save_button.destroy()
-    scan_temp_button.destroy()
+    # save_button.destroy()
+    # scan_temp_button.destroy()
     show_details()
+    root.after(500, save_details)
+
+def get_room_number(course_text):
+    current_day = datetime.now().strftime("%A")  # Get the current day
+    current_time = datetime.now().strftime("%I:%M %p")  # Get the current time
+
+
+    sql_connection()
+
+    # Retrieve the class schedule data from the database
+    query = "SELECT day, time, room_number FROM class_schedule WHERE section = %s"
+    values = (course_text,)
+    cursor.execute(query, values)
+    rows = cursor.fetchall()
+    # Close the database connection
+    cursor.close()
+    connection.close()
+
+    closest_time_diff = timedelta.max
+    closest_room_number = None
+
+    for row in rows:
+        day = row[0]
+        time = row[1]
+        room_number = row[2]
+
+        if current_day == day:
+            class_time = datetime.strptime(time, "%I:%M %p")
+            current_time = datetime.strptime(current_time, "%I:%M %p")
+
+            time_diff = abs(class_time - current_time)
+            if time_diff < closest_time_diff:
+                closest_time_diff = time_diff
+                closest_room_number = room_number
+
+    return closest_room_number
+
 
 # button labels
 startButton = Button(root, text="Start", padx=10, pady=10, font=('Times', 30), command=clear_front_page)

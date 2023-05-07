@@ -35,7 +35,7 @@ global is_home
 global rfid_code
 global temp
 global arport
-arport = "COM6"
+arport = "COM9"
 temp = ""
 rfid_code = ""
 is_home = False
@@ -245,7 +245,7 @@ def scan_id():
     global rfid_code
     try:
         arduino = serial.Serial(arport, timeout=5)
-        print("Connected")
+        print("Connected RFID")
     except:
         print("Please Check Port")
 
@@ -406,7 +406,7 @@ def trace_checker():
 
         # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
         # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
-        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, DATE(transdate) from `logs` where `name`='"+name_entry.get()+"' AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
+        cursor.execute("SELECT id, DATE_FORMAT(transdate, '%Y-%m-%d %H:%i') AS `formated_date`, DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, DATE(transdate) from `logs` where `name`='"+name_entry.get()+"' AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 2 DAY) AND '"+dateEntry+"'")
 
         result = cursor.fetchall()
 
@@ -784,7 +784,9 @@ def clear_show_details():
     start_program()
 
 def save_details():
-    if detail_room_entry.get() == "" or temp_text == "\N{DEGREE SIGN}C":
+    if not detail_room_entry.get().isdigit():
+        messagebox.showwarning('Error', 'Error: Room must be a valid integer!')
+    elif detail_room_entry.get() == "" or temp_text == "\N{DEGREE SIGN}C":
         messagebox.showwarning('Error', 'Error: Please Fill up Data!')
     else:
         try:
@@ -805,7 +807,6 @@ def save_details():
                 cursor.close()
                 connection.close()
                 clear_show_details()
-
 
 # def save_details():
 #     if detail_room_entry.get() == "" or temp_text == "\N{DEGREE SIGN}C":
