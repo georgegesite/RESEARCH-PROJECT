@@ -24,6 +24,7 @@ import calendar
 import serial
 import schedule
 from dateutil.relativedelta import relativedelta
+import threading
 
 root = Tk()
 root.title("Contact Tracing")
@@ -933,13 +934,13 @@ def show_details():
     detail_room_entry = ttk.Entry(root, width=20, font=('Times', 25))
     detail_room_entry.place(x=600+40+200, y=425+70+20)
 
-    save_button = Button(root, text="Save", padx=10, pady=10, font=('Times', 30),command=save_details)
+    save_button = Button(root, text="Save", padx=10, pady=10, font=('Times', 30),command=threading.Thread(target = save_details).start())
     save_button.place(x=1310, y=700)
     # save_button.pack()
     # save_button.bind("<Button-1>", lambda event: change_color_default())
 
     scan_temp_button = Button(root, text="Scan TEMP", padx=10, pady=10, font=('Times', 30),
-                                    command=scan_temp)
+                                    command=threading.Thread(target = scan_temp).start())
     scan_temp_button.pack()
     scan_temp_button.bind("<Button-1>", lambda event: change_color_green_temp())
     scan_temp_button.place(x=2, y=700)
