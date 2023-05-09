@@ -2,6 +2,7 @@
 # automatically enter room number based on class schedule - Worked
 # automatically save - WORKED
 # added address and phone to contact tracing list - worked
+# can export the contact tracing list -worked
 
 #lahi na rfid para mo gawas ang entrance monitoring and contact tracing
 #export contact tracing via email
@@ -26,6 +27,17 @@ import serial
 import schedule
 from dateutil.relativedelta import relativedelta
 import threading
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
 
 root = Tk()
 root.title("Contact Tracing")
@@ -393,6 +405,7 @@ def trace_checker():
     global tracedate
     global time_id
     global dateEntry
+    global nameEntry
     clean = False
     if name_entry.get() == "" or date_entry.get() == "":
         messagebox.showwarning('Error', 'Please Fill in Name and Date!')
@@ -406,6 +419,7 @@ def trace_checker():
         # VALUES 
         # (1, 'John Doe', '2023-04-17', 1647633600, '101', 25.6, "BSCPE4A");
         dateEntry = date_entry.get()
+        nameEntry = name_entry.get()
 
         # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
         # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
@@ -572,11 +586,10 @@ def trace():
 
     i_name = get_infected_names(unique_id)
 
-
-
 def contacttracing_output():
     final_names = contact_tracing_list_final
     print(len(contact_tracing_list_final))
+    pdf_filename = create_pdf(final_names)
     global myframe
     global traced_frame
     global my_button
@@ -609,7 +622,6 @@ def contacttracing_output():
 
     else:
         Label(myframe, text="No One", font=('Times', 15)).pack()
-
 
 def click_name(text):
     new = Toplevel(root)
@@ -672,6 +684,87 @@ def click_name(text):
     clicked_phone_label.place(x=450, y=260)
     clicked_phone = Label(new, text=clicked_phone_text, font=('Times', 18))
     clicked_phone.place(x=550, y=260)
+
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+# def create_pdf(array):
+#     # Create a new PDF file
+#     pdf_filename = "Contact_Tracing.pdf"
+#     c = canvas.Canvas(pdf_filename, pagesize=letter)
+
+#     # Set the font sizes
+#     header_font_size = 10
+#     title_font_size = 16
+#     content_font_size = 12
+
+#     # Header
+#     c.setFont("Helvetica-Bold", header_font_size)
+#     c.drawString(150, 750, "RFID-BASED ENTRANCE MONITORING SYSTEM WITH TEMPERATURE")
+#     c.drawString(140, 730, "SCANNER AND COVID-19 CONTACT TRACING USING MACHINE LEARNING")
+
+#     # Title
+#     c.setFont("Helvetica-Bold", title_font_size)
+#     c.drawString(220, 700, "CONTACT TRACING LIST")
+
+#     # Name of Positive Cased Person and Date of Contact Tracing
+#     c.setFont("Helvetica", content_font_size)
+#     c.drawString(100, 670, "Positive Cased Person: " + nameEntry)
+#     c.drawString(100, 650, "Date of Contact Tracing: " + dateEntry)
+
+#     # Write the contents of the array to the PDF
+#     for i, content in enumerate(array):
+#         content_str = str(content)  # Convert the tuple element to a string
+#         c.setFont("Helvetica", content_font_size)  # Set the font and size
+#         c.drawString(100, 600 - i * 50, content_str)
+
+#     c.save()
+
+#     return pdf_filename
+def create_pdf(array):
+    # Create a new PDF file
+    pdf_filename = "Contact_Tracing.pdf"
+    doc = SimpleDocTemplate(pdf_filename, pagesize=letter)
+    story = []
+
+    # Set the font sizes
+    header_font_size = 10
+    title_font_size = 16
+    content_font_size = 12
+
+    # Header
+    header_style = ParagraphStyle(name='Header', fontSize=header_font_size, leading=14, alignment=TA_CENTER,fontName='Helvetica-Bold')
+    header_text = "RFID-BASED ENTRANCE MONITORING SYSTEM WITH TEMPERATURE SCANNER AND COVID-19 CONTACT TRACING USING MACHINE LEARNING"
+    header_paragraph = Paragraph(header_text, header_style)
+    story.append(header_paragraph)
+
+    # Title
+    title_style = ParagraphStyle(name='Title', fontSize=title_font_size, leading=18, spaceAfter=10, alignment=TA_CENTER,fontName='Helvetica-Bold')
+    title_text = "CONTACT TRACING LIST"
+    title_paragraph = Paragraph(title_text, title_style)
+    story.append(title_paragraph)
+
+    # Name of Positive Cased Person and Date of Contact Tracing
+    name_style = ParagraphStyle(name='Name', fontSize=content_font_size, leading=14, spaceAfter=5)
+    name_text = "Positive Cased Person: " + nameEntry
+    name_paragraph = Paragraph(name_text, name_style)
+    story.append(name_paragraph)
+
+    date_style = ParagraphStyle(name='Date', fontSize=content_font_size, leading=14, spaceAfter=5)
+    date_text = "Date of Contact Tracing: " + dateEntry
+    date_paragraph = Paragraph(date_text, date_style)
+    story.append(date_paragraph)
+
+    # Write the contents of the array to the PDF
+    content_style = ParagraphStyle(name='Content', fontSize=content_font_size, leading=14, spaceAfter=5)
+    for content in array:
+        content_text = str(content)  # Convert the tuple element to a string
+        content_paragraph = Paragraph(content_text, content_style)
+        story.append(content_paragraph)
+
+    doc.build(story)
+
+    return pdf_filename
 
 def clear_register():
     b2.destroy()

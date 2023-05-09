@@ -2,6 +2,7 @@
 # automatically enter room number based on class schedule - Worked
 # automatically save - WORKED
 # added address and phone to contact tracing list - worked
+# can export the contact tracing list -worked
 
 #lahi na rfid para mo gawas ang entrance monitoring and contact tracing
 #export contact tracing via email
@@ -26,6 +27,17 @@ import serial
 import schedule
 from dateutil.relativedelta import relativedelta
 import threading
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
 
 root = Tk()
 root.title("Contact Tracing")
@@ -384,6 +396,9 @@ def clear_contact_traced():
     back_button2.destroy()
     date_label.destroy()
     date_entry.destroy()
+    label_email.destroy()
+    entry_email.destroy()
+    button_send.destroy()
     start_program()
     contact_tracing_list_final.clear()
 
@@ -393,6 +408,7 @@ def trace_checker():
     global tracedate
     global time_id
     global dateEntry
+    global nameEntry
     clean = False
     if name_entry.get() == "" or date_entry.get() == "":
         messagebox.showwarning('Error', 'Please Fill in Name and Date!')
@@ -406,6 +422,7 @@ def trace_checker():
         # VALUES 
         # (1, 'John Doe', '2023-04-17', 1647633600, '101', 25.6, "BSCPE4A");
         dateEntry = date_entry.get()
+        nameEntry = name_entry.get()
 
         # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and date(transdate)='"+date_entry.get()+"'")
         # cursor.execute("SELECT id, DATE_FORMAT (transdate, '%Y-%m-%d %H:%i') AS `formated_date`,DATE_FORMAT(transdate, '%Y-%m-%d') AS `newdate_date`, date(transdate) from `logs` where `name`='"+name_entry.get()+"' and AND DATE(transdate) BETWEEN DATE_SUB('"+dateEntry+"', INTERVAL 1 DAY) AND '"+dateEntry+"'")
@@ -467,7 +484,6 @@ def contact_tracing():
 
     myframe = Frame(traced_frame_canvas)
     traced_frame_canvas.create_window((0, 0), window=myframe, anchor="nw")
-
     traced_frame1.place(x=170, y=250, width=1100, height=500)
     back_button1 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_contact_tracing)
     back_button1.place(x=1305, y=700)
@@ -572,16 +588,19 @@ def trace():
 
     i_name = get_infected_names(unique_id)
 
-
-
 def contacttracing_output():
     final_names = contact_tracing_list_final
     print(len(contact_tracing_list_final))
+    pdf_filename = create_pdf(final_names)
     global myframe
     global traced_frame
     global my_button
     global traced_frame_canvas
     global back_button2
+    global label_email
+    global entry_email
+    global button_send
+
     for widgets in traced_frame1.winfo_children():
         widgets.destroy()
     traced_frame = LabelFrame(root, text="People Subject to Contact Tracing", font=('Times', 20))
@@ -602,6 +621,15 @@ def contacttracing_output():
     traced_frame.place(x=170, y=250, width=1100, height=500)
     back_button2 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_contact_traced)
     back_button2.place(x=1305, y=700)
+
+    label_email = Label(root, text="Email:", font=('Times', 25))
+    label_email.place(x=260, y=750)
+
+    entry_email = ttk.Entry(root, font=('Times', 25), width=25)
+    entry_email.place(x=360, y=750)
+
+    button_send = Button(root, text="Send Email", padx=2, pady=2, font=('Times', 16), command=send_email)
+    button_send.place(x=490+270+40, y=750)
 
     if len(final_names) > 0:
         for i in final_names:
@@ -672,6 +700,84 @@ def click_name(text):
     clicked_phone_label.place(x=450, y=260)
     clicked_phone = Label(new, text=clicked_phone_text, font=('Times', 18))
     clicked_phone.place(x=550, y=260)
+
+
+
+def create_pdf(array):
+    # Create a new PDF file
+    global pdf_filename
+    pdf_filename = "Contact_Tracing.pdf"
+    doc = SimpleDocTemplate(pdf_filename, pagesize=letter)
+    story = []
+
+    # Set the font sizes
+    header_font_size = 10
+    title_font_size = 16
+    content_font_size = 12
+
+    # Header
+    header_style = ParagraphStyle(name='Header', fontSize=header_font_size, leading=14, alignment=TA_CENTER,fontName='Helvetica-Bold')
+    header_text = "RFID-BASED ENTRANCE MONITORING SYSTEM WITH TEMPERATURE SCANNER AND COVID-19 CONTACT TRACING USING MACHINE LEARNING"
+    header_paragraph = Paragraph(header_text, header_style)
+    story.append(header_paragraph)
+
+    # Title
+    title_style = ParagraphStyle(name='Title', fontSize=title_font_size, leading=18, spaceAfter=10, alignment=TA_CENTER,fontName='Helvetica-Bold')
+    title_text = "CONTACT TRACING LIST"
+    title_paragraph = Paragraph(title_text, title_style)
+    story.append(title_paragraph)
+
+    # Name of Positive Cased Person and Date of Contact Tracing
+    name_style = ParagraphStyle(name='Name', fontSize=content_font_size, leading=14, spaceAfter=5)
+    name_text = "Positive Cased Person: " + nameEntry
+    name_paragraph = Paragraph(name_text, name_style)
+    story.append(name_paragraph)
+
+    date_style = ParagraphStyle(name='Date', fontSize=content_font_size, leading=14, spaceAfter=5)
+    date_text = "Date of Contact Tracing: " + dateEntry
+    date_paragraph = Paragraph(date_text, date_style)
+    story.append(date_paragraph)
+
+    # Write the contents of the array to the PDF
+    content_style = ParagraphStyle(name='Content', fontSize=content_font_size, leading=14, spaceAfter=5)
+    for content in array:
+        content_text = str(content)  # Convert the tuple element to a string
+        content_paragraph = Paragraph(content_text, content_style)
+        story.append(content_paragraph)
+
+    doc.build(story)
+
+    return pdf_filename
+
+def send_email():
+    recipient_email = entry_email.get()
+    # Email settings
+    sender_email = "bisucontacttracing2023@gmail.com"
+    sender_password = "lpvgdvstrligcmdn"
+
+    # Create a multipart message
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message["To"] = recipient_email
+    message["Subject"] = "Contact Tracing List Update"
+
+    # Attach the PDF file to the email
+    with open(pdf_filename, "rb") as attachment:
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(attachment.read())
+
+    encoders.encode_base64(part)
+    part.add_header("Content-Disposition", f"attachment; filename= {pdf_filename}")
+
+    message.attach(part)
+
+    # Connect to the SMTP server and send the email
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.send_message(message)
+    
+    messagebox.showinfo("Email Sent", "The email has been sent successfully.")
 
 def clear_register():
     b2.destroy()
