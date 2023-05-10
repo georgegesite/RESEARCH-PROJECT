@@ -1,13 +1,3 @@
-# automate scanning of rfid and temp (no more user press) - Worked
-# automatically enter room number based on class schedule - Worked
-# automatically save - WORKED
-# added address and phone to contact tracing list - worked
-# can export the contact tracing list -worked
-#export contact tracing via email - worked
-
-# lahi na rfid para mo gawas ang entrance monitoring and contact tracing - WORKED
-# redesign UI for scanning temp
-
 from datetime import datetime, timedelta
 import time
 import tkinter.messagebox
@@ -1170,3 +1160,13 @@ myLabel.pack(anchor="n")
 startButton.pack(anchor="center", pady=50)
 
 root.mainloop()
+
+# automate scanning of rfid and temp (no more user press) - Worked
+# automatically enter room number based on class schedule - Worked
+# automatically save - WORKED
+# added address and phone to contact tracing list - worked
+# can export the contact tracing list -worked
+#export contact tracing via email - worked
+
+# lahi na rfid para mo gawas ang entrance monitoring and contact tracing - WORKED
+# redesign UI for scanning temp- WORKED
