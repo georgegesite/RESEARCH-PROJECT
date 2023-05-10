@@ -5,7 +5,7 @@
 # can export the contact tracing list -worked
 #export contact tracing via email - worked
 
-#lahi na rfid para mo gawas ang entrance monitoring and contact tracing - working
+# lahi na rfid para mo gawas ang entrance monitoring and contact tracing - WORKED
 # redesign UI for scanning temp
 
 from datetime import datetime, timedelta
@@ -115,8 +115,7 @@ def start_program():
     global rfid_pic
     global start_label
     global rfid_image_label
-    global contact_tracing_Button
-    global monitoring_button
+
     global from_trace
     global is_header
     global temp
@@ -135,16 +134,37 @@ def start_program():
     rfid_image_label = Label(image=rfid_pic)
     rfid_image_label.place(x=500, y=220)
 
-    contact_tracing_Button = Button(root, text="Contact Tracing", padx=10, pady=10, font=('Times', 30),
-                                    command=clear_start_contact_tracing)
-    contact_tracing_Button.place(x=1132, y=700)
 
-    monitoring_button = Button(root, text="Entrance Monitoring", padx=10, pady=10, font=('Times', 30),
-                                    command=clear_start_entrance_monitoring)
-    monitoring_button.place(x=750, y=700)
+
     rfid_thread = threading.Thread(target = scan_id)#threading
     root.after(500, rfid_thread.start())
     # root.after(500, scan_id)
+
+def admin_program():
+    global contact_tracing_button
+    global monitoring_button
+    global exit_button
+    global admin_label
+    admin_label = Label(root, text="Welcome BISU Admin...", font=('Times', 30))
+    admin_label.place(x=565, y=140)
+
+    contact_tracing_button = Button(root, text="Contact Tracing", padx=10, pady=10, font=('Times', 30),
+                                command=clear_start_contact_tracing)
+    contact_tracing_button.place(x=585, y=300)
+
+    monitoring_button = Button(root, text="Entrance Monitoring", padx=10, pady=10, font=('Times', 30),
+                           command=clear_start_entrance_monitoring)
+    monitoring_button.place(x=550, y=400)
+
+    exit_button = Button(root, text="Exit", padx=10, pady=10, font=('Times', 30), command=exit_admin)
+    exit_button.place(x=680, y=500)
+
+def exit_admin():
+    admin_label.destroy()
+    monitoring_button.destroy()
+    contact_tracing_button.destroy()
+    exit_button.destroy()
+    start_program()
 
 def entrance_monitoring():
     global name_label
@@ -172,13 +192,11 @@ def entrance_monitoring():
     myscrollbar.pack(side=RIGHT, fill="y")
 
     traced_frame_canvas.configure(yscrollcommand=myscrollbar.set)
-
     traced_frame_canvas.bind('<Configure>',
                              lambda e: traced_frame_canvas.configure(scrollregion=traced_frame_canvas.bbox('all')))
 
     myframe = Frame(traced_frame_canvas)
     traced_frame_canvas.create_window((0, 0), window=myframe, anchor="nw")
-
     traced_frame1.place(x=170, y=250, width=1100, height=500)
 
     back_button2 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_entrance_monitoring)
@@ -255,7 +273,8 @@ def show_entrance_monitoring():
     back_button3.place(x=1305, y=700)
 
 def scan_id():
-
+    global admin_rfid
+    admin_rfid = '0001093604'
     global rfid_code
     try:
         arduino = serial.Serial(arport, timeout=5)
@@ -277,20 +296,28 @@ def scan_id():
 
     if (rfid_code != None and len(rfid_code) > 3):
         print(rfid_code)
-        
-        sql_connection()
-        cursor.execute(
-            "SELECT * from users where rfid='"+rfid_code+"'")
-        result = cursor.fetchall()
-
-        if len(result) >= 1:
-            start_show_thread = threading.Thread(target=clear_start_show_details)#threading
-            start_show_thread.start()
-            root.after(500, lambda: start_show_thread.join())
-            # clear_start_show_details()
+        str_rfid_code = rfid_code.strip()
+        if str_rfid_code == admin_rfid:
+            print("ADMIN ACCESSED")
+            clear_start_admin_program()
         else:
-            clear_start_register()
+            sql_connection()
+            cursor.execute("SELECT * from users where rfid='" + rfid_code + "'")
+            result = cursor.fetchall()
 
+            if len(result) >= 1:
+                start_show_thread = threading.Thread(target=clear_start_show_details)  # threading
+                start_show_thread.start()
+                root.after(500, lambda: start_show_thread.join())
+                # clear_start_show_details()
+            else:
+                clear_start_register()
+
+def clear_start_admin_program():
+    start_label.destroy()
+    # scan_button.destroy()
+    rfid_image_label.destroy()
+    admin_program()
 
 def clear_front_page():
     startButton.destroy()
@@ -302,11 +329,10 @@ def clear_front_page():
 
 def clear_start_contact_tracing():
     is_home = False
-    start_label.destroy()
-    # scan_button.destroy()
-    rfid_image_label.destroy()
+    admin_label.destroy()
     monitoring_button.destroy()
-    contact_tracing_Button.destroy()
+    contact_tracing_button.destroy()
+    exit_button.destroy()
     contact_tracing()
 
 def clear_get_entrance_monitoring():
@@ -314,7 +340,7 @@ def clear_get_entrance_monitoring():
     date_entry.destroy()
     my_tree.destroy()
     back_button3.destroy()
-    start_program()
+    admin_program()
 
 def clear_entrance_monitoring():
     is_home = False
@@ -323,14 +349,13 @@ def clear_entrance_monitoring():
     trace_button.destroy()
     back_button2.destroy()
     traced_frame1.destroy()
-    start_program()
+    admin_program()
 
 def clear_start_entrance_monitoring():
-    start_label.destroy()
-    # scan_button.destroy()
-    rfid_image_label.destroy()
+    admin_label.destroy()
     monitoring_button.destroy()
-    contact_tracing_Button.destroy()
+    contact_tracing_button.destroy()
+    exit_button.destroy()
     entrance_monitoring()
 
 def clear_start_register():
@@ -338,27 +363,24 @@ def clear_start_register():
     is_home = False
     start_label.destroy()
     rfid_image_label.destroy()
-    monitoring_button.destroy()
-    contact_tracing_Button.destroy()
     # scan_button.destroy()
     register()
     # show_details()
 
 def clear_start_show_details():
+    global scan_temp_label
     global is_home
     is_home = False
     start_label.destroy()
     rfid_image_label.destroy()
-    monitoring_button.destroy()
-    contact_tracing_Button.destroy()
     # scan_button.destroy()
     show_details()
+    scan_temp_label = Label(root, text="Please Scan Temperature", font=('Times', 30))
+    scan_temp_label.place(x=560, y=140)
     # temp_thread = threading.Thread(target=scan_temp)#threading
     # temp_thread.start()
     # root.after(500, lambda: temp_thread.join())
     root.after(500, scan_temp)
-
-
 
 def clear_contact_tracing():
     global stop_thread
@@ -372,7 +394,7 @@ def clear_contact_tracing():
     trace_button.destroy()
     back_button1.destroy()
     traced_frame1.destroy()
-    start_program()
+    admin_program()
 
 def clear_trace():
     name_label.destroy()
@@ -401,8 +423,8 @@ def clear_contact_traced():
     label_email.destroy()
     entry_email.destroy()
     button_send.destroy()
-    start_program()
     contact_tracing_list_final.clear()
+    admin_program()
 
 def trace_checker():
     global unique_id
@@ -486,7 +508,7 @@ def contact_tracing():
 
     myframe = Frame(traced_frame_canvas)
     traced_frame_canvas.create_window((0, 0), window=myframe, anchor="nw")
-    traced_frame1.place(x=170, y=250, width=1100, height=500)
+    traced_frame1.place(x=170, y=250, width=1100, height=450)
     #back button contact tracing
     back_button1 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_contact_tracing)
     back_button1.place(x=1305, y=700)
@@ -621,18 +643,17 @@ def contacttracing_output():
     myframe = Frame(traced_frame_canvas)
     traced_frame_canvas.create_window((0, 0), window=myframe, anchor="nw")
 
-    traced_frame.place(x=170, y=250, width=1100, height=500)
+    traced_frame.place(x=170, y=250, width=1100, height=450)
     back_button2 = Button(root, text="Back", padx=10, pady=10, font=('Times', 30), command=clear_contact_traced)
     back_button2.place(x=1305, y=700)
 
-    label_email = Label(root, text="Email:", font=('Times', 25))
-    label_email.place(x=260, y=750)
+    label_email = Label(root, text="Email List:", font=('Times', 25))
+    label_email.place(x=260+100+25, y=720)
 
     entry_email = ttk.Entry(root, font=('Times', 25), width=25)
-    entry_email.place(x=360, y=750)
-
-    button_send = Button(root, text="Send Email", padx=2, pady=2, font=('Times', 16), command=send_email)
-    button_send.place(x=490+270+40, y=750)
+    entry_email.place(x=360+100+80, y=720)
+    button_send = Button(root, text="Send List", padx=2, pady=2, font=('Times', 16), command=send_email)
+    button_send.place(x=800+100+80, y=720)
 
     if len(final_names) > 0:
         for i in final_names:
@@ -1098,6 +1119,7 @@ def clear_temp_scan():
     detail_room_entry.destroy()
     # save_button.destroy()
     # scan_temp_button.destroy()
+    scan_temp_label.destroy()
     show_details()
     root.after(1500, save_details)
 
