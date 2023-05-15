@@ -39,7 +39,7 @@ global is_home
 global rfid_code
 global temp
 global arport
-arport = "COM9"
+arport = "COM6"
 temp = ""
 rfid_code = ""
 is_home = False
@@ -554,10 +554,8 @@ def trace():
 
     def get_infected_names(unique_id):
         unique_id = int(unique_id)
-        # print(unique_id)
-        name_room = df[df['id'] == int(unique_id)]['room'].item() #or name_room = df[df['id'] == int(unique_id)]['room'].iloc[0]
-        # print(name_room)
-        epsilon = 1 #to be changed optimal 0.38 to 0.4 0.38000 to 1.00000
+        name_room = df[df['id'] == int(unique_id)]['room'].item() 
+        epsilon = 1
         model = DBSCAN(eps=epsilon, min_samples=2, metric='haversine').fit(df[['room', 'datetime']])
         df['cluster'] = model.labels_.tolist()
         input_name_clusters = []
